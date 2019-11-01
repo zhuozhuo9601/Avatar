@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/register.js"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <title>注册页面</title>
+</head>
+<body background="../static/register.jpg">
+<div style="border:1px solid #232232;width:400px;height:250px;position:absolute;left:50%;margin-left:-250px;top:50%;margin-top:-190px;background-color:rgba(35,34,50,0.5);">
+
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="sizing-addon1">账号：</span>
+        <input type="text" class="form-control" placeholder="Username" style="width: 300px;" id="username">
+    </div>
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="sizing-addon2">密码：</span>
+        <input type="password" class="form-control" placeholder="Password" style="width: 300px;" id="password">
+    </div>
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="sizing-addon2">手机号：</span>
+        <input type="text" class="form-control" placeholder="Mobile" style="width: 282px;" id="mobile">
+    </div>
+    {#    <button id="button_register" style="margin-left: 40%; margin-top: 20px;" onclick="registerData()">注册</button>#}
+    <button id="button_register" type="button" class="btn btn-info btn-default"
+            style="margin-left: 45%; margin-top: 20px;" onclick="registerData()">注册
+    </button>
+    <div style="margin-left: 25%; margin-top: 20px;">
+        <span style="color:#FFF;">已有账号了，去登陆！</span>
+        <a href="{{ url('texts:login') }}" style="color: #FFF">去登陆</a>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

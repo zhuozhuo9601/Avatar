@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天神下凡</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <script src="../static/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/register.js"></script>
+</head>
+<body>
+<div class="jumbotron">
+    <div style="margin-left: 35%">
+        <h1>Hello, world!</h1>
+        <p>你好，{{ username }}</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Let's take a look
+        </a></p>
+    </div>
+</div>
+<div style="margin-left: 5%">
+    <div class="row" style="width:25%;float:left;">
+        <div class="col-sm-6 col-md-4" style="width: 379px;">
+            <div class="thumbnail">
+                <img src="../static/userimages/user1.png" alt="...">
+                <div class="caption">
+                    <h3>苹果8系列</h3>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-warning" role="button" data-toggle="modal" data-target="#myModal2"
+                          data-backdrop="static" onclick="imageData('1')">Button</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="width:25%;float:left;">
+        <div class="col-sm-6 col-md-4" style="width: 379px;">
+            <div class="thumbnail">
+                <img src="../static/userimages/user2.jpeg" alt="...">
+                <div class="caption">
+                    <h3>苹果x系列</h3>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-warning" role="button" data-toggle="modal" data-target="#myModal2"
+                          data-backdrop="static" onclick="imageData('2')">Button</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="width:25%;float:left;">
+        <div class="col-sm-6 col-md-4" style="width: 379px;">
+            <div class="thumbnail">
+                <img src="../static/userimages/user3.jpeg" alt="...">
+                <div class="caption">
+                    <h3>华为系列</h3>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-warning" role="button" data-toggle="modal" data-target="#myModal2"
+                          data-backdrop="static" onclick="imageData('3')">Button</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="width:25%;float:left;">
+        <div class="col-sm-6 col-md-4" style="width: 379px;">
+            <div class="thumbnail">
+                <img src="../static/userimages/user4.png" alt="...">
+                <div class="caption">
+                    <h3>三星系列</h3>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-warning" role="button" data-toggle="modal" data-target="#myModal2"
+                          data-backdrop="static" onclick="imageData('4')">Button</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal2">
+    <div class="jumbotron" style="margin-top: 100px;">
+        <div style="margin-left: 40%" id="imageid">
+        </div>
+        <p style="margin-left: 45%"><a class="btn btn-danger btn-lg" href="#" role="button" data-dismiss="modal">close
+            </a></p>
+    </div>
+     
+</div>
+
+</body>
+</html>
