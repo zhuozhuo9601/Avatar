@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 
-from text.models import User, Image
+from text.models import User, Image, ImageDetails
 
 
 class ComplexEncoder(json.JSONEncoder):
@@ -86,6 +86,9 @@ class UserView(View):
     def get(self, request):
         username = request.user.username
         if username:
+            if username == 'lizhuo01':
+                user_admin = 'lizhuo01'
+            img = Image.objects.all().values('id','img_url','content_one','content_two')
             return render(request, 'user.html', locals())
         else:
             return redirect(reverse("texts:login"))
@@ -94,10 +97,21 @@ class UserView(View):
         id = request.POST.get('id')
         if id:
             try:
-                image = Image.objects.get(id=id)
-                imageData = {"images": '../' + image.images, "content_one": image.content_one,
-                             "content_two": image.content_two}
+                image = ImageDetails.objects.get(details_id=id)
+                imageData = {"images": '../' + str(image.images), "content_one": image.details_one,
+                             "content_two": image.details_two}
                 images = json.dumps(imageData)
                 return http.HttpResponse(images)
             except Exception as e:
                 return http.HttpResponse('500')
+
+
+class ImageView(View):
+    def post(self, request):
+        img = request.FILES.get('file')
+        try:
+            if img:
+                Image.objects.create(img_url=img,content_one='系列',content_two='...')
+                return http.HttpResponse('新增成功')
+        except Exception as e:
+            return http.HttpResponse('新增失败')
