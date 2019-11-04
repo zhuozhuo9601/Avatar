@@ -31,6 +31,10 @@ class ComplexEncoder(json.JSONEncoder):
 
 
 class RegisterView(View):
+    """
+    注册页面
+    """
+
     def get(self, request):
         return render(request, 'register.html')
 
@@ -55,6 +59,10 @@ class RegisterView(View):
 
 
 class LoginView(View):
+    """
+    登陆页面
+    """
+
     def get(self, request):
         return render(request, 'login.html')
 
@@ -74,6 +82,10 @@ class LoginView(View):
 
 
 class IndexView(View):
+    """
+    首页
+    """
+
     def get(self, request):
         user = request.user.username
         if user:
@@ -83,12 +95,16 @@ class IndexView(View):
 
 
 class UserView(View):
+    """
+    信息图片展示页面
+    """
+
     def get(self, request):
         username = request.user.username
         if username:
             if username == 'lizhuo01':
                 user_admin = 'lizhuo01'
-            img = Image.objects.all().values('id','img_url','content_one','content_two')
+            img = Image.objects.all().values('id', 'img_url', 'content_one', 'content_two')
             return render(request, 'user.html', locals())
         else:
             return redirect(reverse("texts:login"))
@@ -107,11 +123,60 @@ class UserView(View):
 
 
 class ImageView(View):
+    """
+    图片上传功能
+    """
+
     def post(self, request):
         img = request.FILES.get('file')
         try:
             if img:
-                Image.objects.create(img_url=img,content_one='系列',content_two='...')
+                Image.objects.create(img_url=img, content_one='系列', content_two='...')
                 return http.HttpResponse('新增成功')
         except Exception as e:
             return http.HttpResponse('新增失败')
+
+
+class AboutView(View):
+    """
+    首页跳转其他页面
+    """
+
+    def get(self, request):
+        return render(request, 'about.html')
+
+
+class GamesView(View):
+    """
+    首页跳转其他页面
+    """
+
+    def get(self, request):
+        return render(request, 'games.html')
+
+
+class NewsView(View):
+    """
+    首页跳转其他页面
+    """
+
+    def get(self, request):
+        return render(request, 'news.html')
+
+
+class ContactView(View):
+    """
+    首页跳转其他页面
+    """
+
+    def get(self, request):
+        return render(request, 'contact.html')
+
+
+class SingleView(View):
+    """
+    首页跳转其他页面
+    """
+
+    def get(self, request):
+        return render(request, 'single.html')

@@ -12,4 +12,9 @@ urlpatterns = [
     url(r'^index/$', views.IndexView.as_view(),name='index'),
     url(r'^user/$', views.UserView.as_view(),name='user'),
     url(r'^image/$', views.ImageView.as_view(),name='image'),
+    url(r'^about/$', views.AboutView.as_view(),name='about'),
+    url(r'^games/$', views.GamesView.as_view(),name='games'),
+    url(r'^news/$', views.NewsView.as_view(),name='news'),
+    url(r'^contact/$', views.ContactView.as_view(),name='contact'),
+    url(r'^single/$', views.SingleView.as_view(),name='single'),
 ]
