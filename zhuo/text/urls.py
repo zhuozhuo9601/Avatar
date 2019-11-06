@@ -17,4 +17,7 @@ urlpatterns = [
     url(r'^news/$', views.NewsView.as_view(),name='news'),
     url(r'^contact/$', views.ContactView.as_view(),name='contact'),
     url(r'^single/$', views.SingleView.as_view(),name='single'),
+    url(r'^table/$', views.TableView.as_view(),name='table'),
+    url(r'^table_add/$', views.TableAdd.as_view(),name='table_add'),
+    url(r'^table_update/$', views.TableUpdate.as_view(),name='table_update'),
 ]
