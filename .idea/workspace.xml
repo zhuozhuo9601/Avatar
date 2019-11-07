@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48583e42-b234-4345-a085-b4d663437b02" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/zhuo/static/1111.jpg" afterPath="$PROJECT_DIR$/zhuo/static/table.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/static/layui/table.js" afterPath="$PROJECT_DIR$/zhuo/static/layui/table.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/static/register.js" afterPath="$PROJECT_DIR$/zhuo/static/register.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/templates/login.html" afterPath="$PROJECT_DIR$/zhuo/templates/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/templates/register.html" afterPath="$PROJECT_DIR$/zhuo/templates/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/templates/user.html" afterPath="$PROJECT_DIR$/zhuo/templates/user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/text/urls.py" afterPath="$PROJECT_DIR$/zhuo/text/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zhuo/text/views.py" afterPath="$PROJECT_DIR$/zhuo/text/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,10 +40,22 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zhuo/text/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="265" column="0" lean-forward="false" selection-start-line="265" selection-start-column="0" selection-end-line="265" selection-end-column="0" />
+            <state relative-caret-position="215">
+              <caret line="84" column="60" lean-forward="false" selection-start-line="84" selection-start-column="60" selection-end-line="84" selection-end-column="60" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#2761#2977#0" expanded="false" />
+                <element signature="e#3006#4097#0" expanded="false" />
+                <element signature="e#4127#4660#0" expanded="false" />
+                <element signature="e#4690#4788#0" expanded="false" />
+                <element signature="e#4818#4916#0" expanded="false" />
+                <element signature="e#4945#5042#0" expanded="false" />
+                <element signature="e#5074#5174#0" expanded="false" />
+                <element signature="e#5205#5304#0" expanded="false" />
+                <element signature="e#5334#5887#0" expanded="false" />
+                <element signature="e#5915#6969#0" expanded="false" />
+                <element signature="e#7000#7636#0" expanded="false" />
+                <element signature="e#7667#8169#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -105,7 +110,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/zhuo/text/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
+            <state relative-caret-position="360">
               <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
@@ -117,8 +122,8 @@
       <file leaf-file-name="register.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/zhuo/static/register.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="52" column="38" lean-forward="false" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
+            <state relative-caret-position="315">
+              <caret line="45" column="46" lean-forward="false" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -127,8 +132,8 @@
       <file leaf-file-name="table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/zhuo/static/layui/table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="134" column="43" lean-forward="false" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="43" />
+            <state relative-caret-position="149">
+              <caret line="132" column="24" lean-forward="true" selection-start-line="132" selection-start-column="24" selection-end-line="132" selection-end-column="24" />
               <folding>
                 <element signature="n#!!doc;n#update#0" expanded="false" />
               </folding>
@@ -179,13 +184,13 @@
         <option value="$PROJECT_DIR$/zhuo/templates/single.html" />
         <option value="$PROJECT_DIR$/zhuo/text/models.py" />
         <option value="$PROJECT_DIR$/zhuo/templates/user.html" />
-        <option value="$PROJECT_DIR$/zhuo/static/register.js" />
         <option value="$PROJECT_DIR$/zhuo/templates/register.html" />
         <option value="$PROJECT_DIR$/zhuo/templates/login.html" />
         <option value="$PROJECT_DIR$/zhuo/templates/table.html" />
         <option value="$PROJECT_DIR$/zhuo/static/layui/table.js" />
-        <option value="$PROJECT_DIR$/zhuo/text/views.py" />
         <option value="$PROJECT_DIR$/zhuo/text/urls.py" />
+        <option value="$PROJECT_DIR$/zhuo/static/register.js" />
+        <option value="$PROJECT_DIR$/zhuo/text/views.py" />
       </list>
     </option>
   </component>
@@ -598,7 +603,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1531" height="776" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17192747" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -606,11 +611,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24375919" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24375919" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1483113" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40528634" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2701909" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5462555" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -628,14 +633,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/zhuo/text/views.py</url>
-          <line>260</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -718,6 +716,18 @@
           <caret line="204" column="10" lean-forward="true" selection-start-line="204" selection-start-column="10" selection-end-line="204" selection-end-column="10" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#2761#2977#0" expanded="false" />
+            <element signature="e#3006#4097#0" expanded="false" />
+            <element signature="e#4127#4660#0" expanded="false" />
+            <element signature="e#4690#4788#0" expanded="false" />
+            <element signature="e#4818#4916#0" expanded="false" />
+            <element signature="e#4945#5042#0" expanded="false" />
+            <element signature="e#5074#5174#0" expanded="false" />
+            <element signature="e#5205#5304#0" expanded="false" />
+            <element signature="e#5334#5887#0" expanded="false" />
+            <element signature="e#5915#6969#0" expanded="false" />
+            <element signature="e#7000#7636#0" expanded="false" />
+            <element signature="e#7667#8169#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -788,6 +798,18 @@
           <caret line="195" column="21" lean-forward="true" selection-start-line="195" selection-start-column="21" selection-end-line="195" selection-end-column="21" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#2761#2977#0" expanded="false" />
+            <element signature="e#3006#4097#0" expanded="false" />
+            <element signature="e#4127#4660#0" expanded="false" />
+            <element signature="e#4690#4788#0" expanded="false" />
+            <element signature="e#4818#4916#0" expanded="false" />
+            <element signature="e#4945#5042#0" expanded="false" />
+            <element signature="e#5074#5174#0" expanded="false" />
+            <element signature="e#5205#5304#0" expanded="false" />
+            <element signature="e#5334#5887#0" expanded="false" />
+            <element signature="e#5915#6969#0" expanded="false" />
+            <element signature="e#7000#7636#0" expanded="false" />
+            <element signature="e#7667#8169#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -858,6 +880,18 @@
           <caret line="102" column="47" lean-forward="true" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#2761#2977#0" expanded="false" />
+            <element signature="e#3006#4097#0" expanded="false" />
+            <element signature="e#4127#4660#0" expanded="false" />
+            <element signature="e#4690#4788#0" expanded="false" />
+            <element signature="e#4818#4916#0" expanded="false" />
+            <element signature="e#4945#5042#0" expanded="false" />
+            <element signature="e#5074#5174#0" expanded="false" />
+            <element signature="e#5205#5304#0" expanded="false" />
+            <element signature="e#5334#5887#0" expanded="false" />
+            <element signature="e#5915#6969#0" expanded="false" />
+            <element signature="e#7000#7636#0" expanded="false" />
+            <element signature="e#7667#8169#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1020,14 +1054,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zhuo/static/register.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="52" column="38" lean-forward="false" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/zhuo/templates/user.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -1038,6 +1064,16 @@
             <marker date="1573090896087" expanded="false" signature="2404:2417" ph="..." />
             <marker date="1573090896087" expanded="false" signature="2984:3005" ph="..." />
             <marker date="1573090896087" expanded="false" signature="3058:3071" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zhuo/text/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1064,30 +1100,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zhuo/static/layui/table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="134" column="43" lean-forward="false" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="43" />
+        <state relative-caret-position="149">
+          <caret line="132" column="24" lean-forward="true" selection-start-line="132" selection-start-column="24" selection-end-line="132" selection-end-column="24" />
           <folding>
             <element signature="n#!!doc;n#update#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zhuo/text/urls.py">
+    <entry file="file://$PROJECT_DIR$/zhuo/static/register.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="315">
+          <caret line="45" column="46" lean-forward="false" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/zhuo/text/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="265" column="0" lean-forward="false" selection-start-line="265" selection-start-column="0" selection-end-line="265" selection-end-column="0" />
+        <state relative-caret-position="215">
+          <caret line="84" column="60" lean-forward="false" selection-start-line="84" selection-start-column="60" selection-end-line="84" selection-end-column="60" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#2761#2977#0" expanded="false" />
+            <element signature="e#3006#4097#0" expanded="false" />
+            <element signature="e#4127#4660#0" expanded="false" />
+            <element signature="e#4690#4788#0" expanded="false" />
+            <element signature="e#4818#4916#0" expanded="false" />
+            <element signature="e#4945#5042#0" expanded="false" />
+            <element signature="e#5074#5174#0" expanded="false" />
+            <element signature="e#5205#5304#0" expanded="false" />
+            <element signature="e#5334#5887#0" expanded="false" />
+            <element signature="e#5915#6969#0" expanded="false" />
+            <element signature="e#7000#7636#0" expanded="false" />
+            <element signature="e#7667#8169#0" expanded="false" />
           </folding>
         </state>
       </provider>

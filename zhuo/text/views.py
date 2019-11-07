@@ -56,9 +56,13 @@ class RegisterView(View):
             return http.HttpResponse(data)
         try:
             user = User.objects.create_user(username=username, password=password, mobile=mobile)
-            return redirect(reverse("texts:login"))
+            json_dict = {'code': '1', 'msg': '注册成功'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
         except Exception as e:
-            return render(request, 'register.html')
+            json_dict = {'code': '0', 'msg': '注册失败'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
 
 
 class LoginView(View):
@@ -79,11 +83,9 @@ class LoginView(View):
                 request.session.set_expiry(None)
                 response = redirect(reverse('texts:index'))
                 response.set_cookie('username', user.username, max_age=14 * 24 * 3600)
-                return response
+                return http.HttpResponse(response)
             else:
-                json_dict = {'code': '0', 'msg': '登陆失败'}
-                data = json.dumps(json_dict)
-                return http.HttpResponse(data)
+                return http.HttpResponse('0')
 
 
 class IndexView(View):
@@ -121,7 +123,7 @@ class UserView(View):
                 image = ImageDetails.objects.get(details_id=id)
                 imageData = {"images": '../' + str(image.images), "content_one": image.details_one,
                              "content_two": image.details_two}
-                json_dict = {'code': '1', 'msg': '图片显示成功',"images":imageData}
+                json_dict = {'code': '1', 'msg': '图片显示成功', "images": imageData}
                 data = json.dumps(json_dict)
                 return http.HttpResponse(data)
             except Exception as e:
@@ -212,11 +214,13 @@ class TableView(View):
         data = json.dumps(user_dict)
         return http.HttpResponse(data)
 
+
 class TableAdd(View):
     """
     个人资料添加
     """
-    def post(self,request):
+
+    def post(self, request):
         add_dict = request.POST.getlist('add_dict')
         add_list = add_dict[0]
         add_data = json.loads(add_list)
@@ -240,8 +244,13 @@ class TableAdd(View):
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
 
+
 class TableUpdate(View):
-    def post(self,request):
+    """
+    个人资料修改
+    """
+
+    def post(self, request):
         update_dict = request.POST.getlist('update_dict')
         update_list = update_dict[0]
         update_data = json.loads(update_list)
@@ -256,8 +265,13 @@ class TableUpdate(View):
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
 
+
 class TableDelete(View):
-    def post(self,request):
+    """
+    个人资料删除
+    """
+
+    def post(self, request):
         id = request.POST.getlist('id')
         try:
             if id:
