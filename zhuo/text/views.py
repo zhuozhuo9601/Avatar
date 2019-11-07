@@ -43,14 +43,17 @@ class RegisterView(View):
         password = request.POST.get('password')
         mobile = request.POST.get('mobile')
         if not re.match(r'^[a-zA-Z][a-zA-Z0-9_]{4,15}$', username):
-            return http.HttpResponse('500')
+            json_dict = {'code': '0', 'msg': '用户名不符合规则'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
         if not re.match(r'^[0-9A-Za-z]{6,20}$', password):
-            return http.HttpResponse('500')
+            json_dict = {'code': '0', 'msg': '密码不符合规则'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
         if not re.match(r'^1[3-9]\d{9}$', mobile):
-            # code = '0'
-            # msg = '手机号不符合规则'
-            # msgdata = {"code": code, "msg": msg}
-            return http.HttpResponse('500')
+            json_dict = {'code': '0', 'msg': '手机号不符合规则'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
         try:
             user = User.objects.create_user(username=username, password=password, mobile=mobile)
             return redirect(reverse("texts:login"))
@@ -78,7 +81,9 @@ class LoginView(View):
                 response.set_cookie('username', user.username, max_age=14 * 24 * 3600)
                 return response
             else:
-                return http.HttpResponse('500')
+                json_dict = {'code': '0', 'msg': '登陆失败'}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
 
 
 class IndexView(View):
@@ -116,10 +121,13 @@ class UserView(View):
                 image = ImageDetails.objects.get(details_id=id)
                 imageData = {"images": '../' + str(image.images), "content_one": image.details_one,
                              "content_two": image.details_two}
-                images = json.dumps(imageData)
-                return http.HttpResponse(images)
+                json_dict = {'code': '1', 'msg': '图片显示成功',"images":imageData}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
             except Exception as e:
-                return http.HttpResponse('500')
+                json_dict = {'code': '0', 'msg': '图片显示失败'}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
 
 
 class ImageView(View):
@@ -132,9 +140,13 @@ class ImageView(View):
         try:
             if img:
                 Image.objects.create(img_url=img, content_one='系列', content_two='...')
-                return http.HttpResponse('新增成功')
+                json_dict = {'code': '1', 'msg': '图片上传成功'}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
         except Exception as e:
-            return http.HttpResponse('新增失败')
+            json_dict = {'code': '0', 'msg': '图片上传失败'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
 
 
 class AboutView(View):
@@ -241,5 +253,19 @@ class TableUpdate(View):
                 return http.HttpResponse(data)
         except Exception as e:
             json_dict = {'code': '0', 'msg': '修改错误'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
+
+class TableDelete(View):
+    def post(self,request):
+        id = request.POST.getlist('id')
+        try:
+            if id:
+                UserDetails.objects.filter(id__in=id).delete()
+                json_dict = {'code': '1', 'msg': '删除成功'}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
+        except Exception as e:
+            json_dict = {'code': '0', 'msg': '删除失误'}
             data = json.dumps(json_dict)
             return http.HttpResponse(data)

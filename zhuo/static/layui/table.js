@@ -14,7 +14,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , $ = layui.$
         , form = layui.form;//滑块
     //向世界问个好
-    layer.msg('Hello World');
+    layer.msg('你是最棒的');
 
     $("#formDemo").click(function () {
         var formObject = {};
@@ -131,7 +131,19 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                 if (data.length === 0) {
                     layer.msg('请选择一行');
                 } else {
-                    layer.msg('删除');
+                    $.ajax({
+                        url: "/table_delete/",
+                        type: "post",
+                        data: {'id':checkStatus.data[0].id},
+                        success: function (data) {
+                            j_data = JSON.parse(data);
+                            layer.msg(j_data.msg);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
+
+                        }
+                    });
                 }
                 break;
         }
