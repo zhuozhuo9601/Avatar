@@ -11,8 +11,10 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 
+from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails
 
 
@@ -30,6 +32,7 @@ class ComplexEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
 
 
+# @method_decorator(user_login, name="get")
 class RegisterView(View):
     """
     注册页面
@@ -65,6 +68,7 @@ class RegisterView(View):
             return http.HttpResponse(data)
 
 
+# @method_decorator(user_login, name='get')
 class LoginView(View):
     """
     登陆页面
@@ -83,11 +87,12 @@ class LoginView(View):
                 request.session.set_expiry(None)
                 response = redirect(reverse('texts:index'))
                 response.set_cookie('username', user.username, max_age=14 * 24 * 3600)
-                return http.HttpResponse(response)
+                return response
             else:
                 return http.HttpResponse('0')
 
 
+@method_decorator(user_login, name='get')
 class IndexView(View):
     """
     首页
@@ -101,6 +106,7 @@ class IndexView(View):
             return redirect(reverse("texts:login"))
 
 
+@method_decorator(user_login, name='get')
 class UserView(View):
     """
     信息图片展示页面
@@ -132,6 +138,7 @@ class UserView(View):
                 return http.HttpResponse(data)
 
 
+@method_decorator(user_login, name='post')
 class ImageView(View):
     """
     图片上传功能
@@ -151,6 +158,7 @@ class ImageView(View):
             return http.HttpResponse(data)
 
 
+@method_decorator(user_login, name='get')
 class AboutView(View):
     """
     首页跳转其他页面
@@ -160,6 +168,7 @@ class AboutView(View):
         return render(request, 'about.html')
 
 
+@method_decorator(user_login, name='get')
 class GamesView(View):
     """
     首页跳转其他页面
@@ -169,6 +178,7 @@ class GamesView(View):
         return render(request, 'games.html')
 
 
+@method_decorator(user_login, name='get')
 class NewsView(View):
     """
     首页跳转其他页面
@@ -178,6 +188,7 @@ class NewsView(View):
         return render(request, 'news.html')
 
 
+@method_decorator(user_login, name='get')
 class ContactView(View):
     """
     首页跳转其他页面
@@ -187,6 +198,7 @@ class ContactView(View):
         return render(request, 'contact.html')
 
 
+@method_decorator(user_login, name='get')
 class SingleView(View):
     """
     首页跳转其他页面
@@ -196,6 +208,7 @@ class SingleView(View):
         return render(request, 'single.html')
 
 
+@method_decorator(user_login, name='get')
 class TableView(View):
     """
     个人资料展示页
@@ -215,6 +228,7 @@ class TableView(View):
         return http.HttpResponse(data)
 
 
+@method_decorator(user_login, name='post')
 class TableAdd(View):
     """
     个人资料添加
@@ -245,6 +259,7 @@ class TableAdd(View):
             return http.HttpResponse(data)
 
 
+@method_decorator(user_login, name='post')
 class TableUpdate(View):
     """
     个人资料修改
@@ -254,6 +269,9 @@ class TableUpdate(View):
         update_dict = request.POST.getlist('update_dict')
         update_list = update_dict[0]
         update_data = json.loads(update_list)
+        for data in list(update_data.keys()):
+            if not update_data.get(data):
+                del update_data[data]
         try:
             if update_data:
                 UserDetails.objects.filter(id=update_data['id']).update(**update_data)
@@ -266,6 +284,7 @@ class TableUpdate(View):
             return http.HttpResponse(data)
 
 
+@method_decorator(user_login, name='post')
 class TableDelete(View):
     """
     个人资料删除

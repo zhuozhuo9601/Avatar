@@ -97,32 +97,64 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                         type: 1,
                         skin: 'layui-layer-rim', //加上边框
                         area: ['420px', '640px'], //宽高
-                        content: '<div>' +
-                        '<span>昵称：</span>' +
-                        '<input id="username" value=' + checkStatus.data[0].username + '>' +
-                        '<br>' +
-                        '<span>积分：</span>' +
-                        '<input id="experience" value=' + checkStatus.data[0].experience + '>' +
-                        '<br>' +
-                        '<span>性别：</span>' +
-                        '<input id="sex" value=' + checkStatus.data[0].sex + '>' +
-                        '<br>' +
-                        '<span>评分：</span>' +
-                        '<input id="score" value=' + checkStatus.data[0].score + '>' +
-                        '<br>' +
-                        '<span>城市：</span>' +
-                        '<input id="city" value=' + checkStatus.data[0].city + '>' +
-                        '<br>' +
-                        '<span>签名：</span>' +
-                        '<input id="sign" value=' + checkStatus.data[0].sign + '>' +
-                        '<br>' +
-                        '<span>职业：</span>' +
-                        '<input id="classify" value=' + checkStatus.data[0].classify + '>' +
-                        '<br>' +
-                        '<span>财富：</span>' +
-                        '<input id="wealth" value=' + checkStatus.data[0].wealth + '>' +
-                        '<br>' +
-                        '<button id="button_update" onclick=update(' +id +')>修改</button>' +
+                        content: '<div style="margin-top: 10px;">' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">昵称：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="username" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].username + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">积分：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="experience" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].experience + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">性别：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="sex" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].sex + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">评分：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="score" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].score + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">城市：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="city" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].city + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">签名：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="sign" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].sign + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">职业：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="classify" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].classify + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label" style="width: 120px">财富：</label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input type="text" id="wealth" required class="layui-input" autocomplete="off" placeholder=' + checkStatus.data[0].wealth + '>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<button class="layui-btn layui-btn-warm layui-btn-radius"　id="button_update" onclick=update(' + id + ') style="margin-left: 40%;">修改</button>' +
                         '</div>'
                     })
                 }
@@ -134,7 +166,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                     $.ajax({
                         url: "/table_delete/",
                         type: "post",
-                        data: {'id':checkStatus.data[0].id},
+                        data: {'id': checkStatus.data[0].id},
                         success: function (data) {
                             j_data = JSON.parse(data);
                             layer.msg(j_data.msg);
@@ -235,33 +267,33 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
  */
 
 function update(id) {
-        var username = $('#username').val();
-        var experience = $('#experience').val();
-        var sex = $('#sex').val();
-        var score = $('#score').val();
-        var city = $('#city').val();
-        var sign = $('#sign').val();
-        var classify = $('#classify').val();
-        var wealth = $('#wealth').val();
-        var update_data = {
-            "id":id,
-            "username": username, "experience": experience,
-            "sex": sex, "score": score, "city": city, "sign": sign, "classify": classify, "wealth": wealth
-        };
-        var update_dict = JSON.stringify(update_data);
-        console.log(update_dict);
-        console.log(typeof(update_dict));
-        $.ajax({
-            url: "/table_update/",
-            type: "post",
-            data: {'update_dict':update_dict},
-            success: function (data) {
-                j_data = JSON.parse(data);
-                layer.msg(j_data.msg);
-                setTimeout(function () {
-                    window.location.reload();
-                }, 3000);
+    var username = $('#username').val();
+    var experience = $('#experience').val();
+    var sex = $('#sex').val();
+    var score = $('#score').val();
+    var city = $('#city').val();
+    var sign = $('#sign').val();
+    var classify = $('#classify').val();
+    var wealth = $('#wealth').val();
+    var update_data = {
+        "id": id,
+        "username": username, "experience": experience,
+        "sex": sex, "score": score, "city": city, "sign": sign, "classify": classify, "wealth": wealth
+    };
+    var update_dict = JSON.stringify(update_data);
+    console.log(update_dict);
+    console.log(typeof(update_dict));
+    $.ajax({
+        url: "/table_update/",
+        type: "post",
+        data: {'update_dict': update_dict},
+        success: function (data) {
+            j_data = JSON.parse(data);
+            layer.msg(j_data.msg);
+            setTimeout(function () {
+                window.location.reload();
+            }, 3000);
 
-            }
-        });
-    }
+        }
+    });
+}
