@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 
+
 from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails
 
@@ -302,3 +303,13 @@ class TableDelete(View):
             json_dict = {'code': '0', 'msg': '删除失误'}
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
+
+
+@method_decorator(user_login, name='get')
+class EchartsView(View):
+    """
+    柱状图，饼图等显示
+    """
+    def get(self,request):
+
+        return render(request, 'echarts.html')
