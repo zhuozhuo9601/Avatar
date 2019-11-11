@@ -2,9 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>邮件发送</title>
+        <script src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+
 </head>
 <body>
-    <h1>这是我测试路由的页面</h1>
+<h1>发送邮件页面</h1>
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">点击发送邮件</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">邮件输入框</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">发件人邮箱</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" id="send">
+                </div>
+
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">发件人邮箱密码</span>
+                    <input type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon1" id="password">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">收件人邮箱</span>
+                    <input type="text" class="form-control" placeholder="receiver" aria-describedby="sizing-addon1" id="receiver">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">邮件主题</span>
+                    <input type="text" class="form-control" placeholder="theme" aria-describedby="sizing-addon1" id="theme">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">邮件内容</span>
+                    <textarea class="form-control" rows="3" id="content"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="send()">确认发送</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<script>
+    function send() {
+        var username = $('#send').val();
+        var password = $('#password').val();
+        var receiver = $('#receiver').val();
+        var content = $('#content').val();
+        var theme = $('#theme').val();
+        send_data = {
+            "username":username,
+            "password":password,
+            "receiver":receiver,
+            "content":content,
+            "theme":theme
+        };
+        $.post('/study_send/', send_data,function (data) {
+            if (data == '200'){
+                window.location.reload();
+            }
+        })
+    }
+
+</script>
 </body>
 </html>
