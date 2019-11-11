@@ -7,13 +7,13 @@ from decimal import Decimal
 
 from django import http
 from django.contrib.auth import login, authenticate
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-
 
 from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails
@@ -221,8 +221,11 @@ class TableView(View):
     def post(self, request):
         user = UserDetails.objects.all().values('id', 'username', 'experience', 'sex', 'score', 'city', 'sign',
                                                 'classify', 'wealth')
+        paginator = Paginator(user, 10)
+        page = request.POST.get('page', 1)
+        paginator_data = paginator.page(page)
         user_list = []
-        for user_data in user:
+        for user_data in paginator_data:
             user_list.append(user_data)
         user_dict = {'code': '0', 'msg': '', 'data': user_list}
         data = json.dumps(user_dict)
@@ -310,6 +313,6 @@ class EchartsView(View):
     """
     柱状图，饼图等显示
     """
-    def get(self,request):
 
+    def get(self, request):
         return render(request, 'echarts.html')
