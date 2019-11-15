@@ -20,6 +20,11 @@ def study_first(request):
 # 发送邮件
 @user_login
 def send(request):
+    """
+    邮件功能
+    :param request:
+    :return:
+    """
     # 发件人
     sender = request.POST.get('username')
     # 接收者
