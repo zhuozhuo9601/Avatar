@@ -59,6 +59,7 @@ function imageData(id) {
                 $('#imageid').append("<img src=" + imagedata.images.images + " width='200px'>" +
                     "<h1>" + imagedata.images.content_one + "</h1>" +
                     "<h2>" + imagedata.images.content_two + "</h2>")
+                layer.msg(imagedata.msg);
             } else {
                 layer.msg(imagedata.msg);
             }
@@ -66,3 +67,4 @@ function imageData(id) {
 
         });
 }
+

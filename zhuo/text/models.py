@@ -18,6 +18,7 @@ class User(AbstractUser):
 
 class Image(models.Model):
     """图片上传模型类"""
+    ima_name = models.ForeignKey(User,max_length=20,null=True)
     img_url = models.ImageField(upload_to='static/userimages')  # upload_to指定图片上传的途径，如果不存在则自动创建
     content_one = models.CharField(max_length=200, blank=True)
     content_two = models.CharField(max_length=200, blank=True)
