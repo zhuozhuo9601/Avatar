@@ -7,6 +7,7 @@ from decimal import Decimal
 
 from django import http
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import Permission
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
@@ -119,6 +120,10 @@ class UserView(View):
             if username == 'lizhuo01':
                 user_admin = 'lizhuo01'
             user_data = User.objects.get(username=username)
+            # 增加用户权限
+            permiss = Permission.objects.get(id=1)
+            user_data.user_permissions.add(permiss)
+            user_per = user_data.get_all_permissions()
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
             return render(request, 'user.html', locals())
         else:
