@@ -47,25 +47,27 @@ class RegisterView(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
         mobile = request.POST.get('mobile')
+        json_dict = {'code': '0', 'msg': ''}
         if not re.match(r'^[a-zA-Z][a-zA-Z0-9_]{4,15}$', username):
-            json_dict = {'code': '0', 'msg': '用户名不符合规则'}
+            json_dict['msg'] = '用户名不符合规则'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
         if not re.match(r'^[0-9A-Za-z]{6,20}$', password):
-            json_dict = {'code': '0', 'msg': '密码不符合规则'}
+            json_dict['msg'] = '密码不符合规则'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
         if not re.match(r'^1[3-9]\d{9}$', mobile):
-            json_dict = {'code': '0', 'msg': '手机号不符合规则'}
+            json_dict['msg'] = '手机号不符合规则'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
         try:
             user = User.objects.create_user(username=username, password=password, mobile=mobile)
-            json_dict = {'code': '1', 'msg': '注册成功'}
+            json_dict['code'] = '1'
+            json_dict['msg'] = '注册成功'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
         except Exception as e:
-            json_dict = {'code': '0', 'msg': '注册失败'}
+            json_dict['msg'] = '注册失败'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
 
@@ -126,23 +128,26 @@ class UserView(View):
             # user_per = user_data.get_all_permissions()
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
             details = UserDetails.objects.filter(user_id__username=username).values('username')
-            details_username = details[0].get('username')
+            if details:
+                details_username = details[0].get('username')
             return render(request, 'user.html', locals())
         else:
             return redirect(reverse("texts:login"))
 
     def post(self, request):
         id = request.POST.get('id')
+        json_dict = {'code': '0', 'msg': '图片显示失败'}
         if id:
             try:
                 image = ImageDetails.objects.get(details_id=id)
                 imageData = {"images": '../' + str(image.images), "content_one": image.details_one,
                              "content_two": image.details_two}
-                json_dict = {'code': '1', 'msg': '图片显示成功', "images": imageData}
+                json_dict['code'] = '1'
+                json_dict['msg'] = '图片显示成功'
+                json_dict['images'] = imageData
                 data = json.dumps(json_dict)
                 return http.HttpResponse(data)
             except Exception as e:
-                json_dict = {'code': '0', 'msg': '图片显示失败'}
                 data = json.dumps(json_dict)
                 return http.HttpResponse(data)
 
@@ -154,22 +159,26 @@ class ImageView(View):
     """
 
     def post(self, request):
+        json_dict = {'code': '1', 'msg': '图片上传成功'}
         if request.POST.get('file'):
             img = request.FILES.get('file')
             try:
                 username = request.user.username
                 if img:
                     user = User.objects.get(username=username)
-                    Image.objects.create(img_url=img, content_one='系列', content_two='...',ima_name=user)
-                    json_dict = {'code': '1', 'msg': '图片上传成功'}
+                    Image.objects.create(img_url=img, content_one='系列', content_two='...', ima_name=user)
                     data = json.dumps(json_dict)
                     return http.HttpResponse(data)
             except Exception as e:
-                json_dict = {'code': '0', 'msg': '图片上传失败'}
+                json_dict['code'] = '0'
+                json_dict['msg'] = '图片上传失败'
                 data = json.dumps(json_dict)
                 return http.HttpResponse(data)
         else:
-            return http.HttpResponse('请选择图片')
+            json_dict['code'] = '0'
+            json_dict['msg'] = '请选择图片'
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
 
 
 @method_decorator(user_login, name='get')
@@ -330,11 +339,13 @@ class EchartsView(View):
     def get(self, request):
         return render(request, 'echarts.html')
 
+
 class OutLogin(View):
     """
     退出登陆功能
     """
-    def get(self,request):
+
+    def get(self, request):
         logout(request)
         response = redirect(reverse('texts:login'))
         # 清除cookie数据
