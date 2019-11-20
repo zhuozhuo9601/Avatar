@@ -5,13 +5,30 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>layui在线调试</title>
   <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
-  <style>
-    body{margin: 10px;}
-    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
-  </style>
+{#  <style>#}
+{#    body{margin: 10px;}#}
+{#    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}#}
+{#  </style>#}
 </head>
 <body>
 
+<ul class="layui-nav" lay-filter="">
+  <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
+  <li class="layui-nav-item layui-this"><a href="{{ url('texts:user') }}">图片展示页</a></li>
+  <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
+  <li class="layui-nav-item">
+    <a href="javascript:;">解决方案</a>
+    <dl class="layui-nav-child"> <!-- 二级菜单 -->
+      <dd><a href="">移动模块</a></dd>
+      <dd><a href="">后台模版</a></dd>
+      <dd><a href="">电商平台</a></dd>
+    </dl>
+  </li>
+  <li class="layui-nav-item"><a href="">社区</a></li>
+</ul>
+<div>
+    <img src="../static/table.jpg" style="height: 300px;width: auto">
+</div>
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
@@ -20,53 +37,16 @@
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-{#<div class="layui-tab layui-tab-brief" lay-filter="demo">#}
-{#  <ul class="layui-tab-title">#}
-{#    <li class="layui-this">演示说明</li>#}
-{#    <li>日期</li>#}
-{#    <li>分页</li>#}
-{#    <li>上传</li>#}
-{#    <li>滑块</li>#}
-{#  </ul>#}
-{#  <div class="layui-tab-content">#}
-{#    <div class="layui-tab-item layui-show">#}
-{##}
-{#      <div class="layui-carousel" id="test1">#}
-{#        <div carousel-item>#}
-{#          <div><p class="layui-bg-green demo-carousel">在这里，你将以最直观的形式体验 layui！</p></div>#}
-{#          <div><p class="layui-bg-red demo-carousel">在编辑器中可以执行 layui 相关的一切代码</p></div>#}
-{#          <div><p class="layui-bg-blue demo-carousel">你也可以点击左侧导航针对性地试验我们提供的示例</p></div>#}
-{#          <div><p class="layui-bg-orange demo-carousel">如果最左侧的导航的高度超出了你的屏幕</p></div>#}
-{#          <div><p class="layui-bg-cyan demo-carousel">你可以将鼠标移入导航区域，然后滑动鼠标滚轮即可</p></div>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
-{#    <div class="layui-tab-item">#}
-{#      <div id="laydateDemo"></div>#}
-{#    </div>#}
-{#    <div class="layui-tab-item">#}
-{#      <div id="pageDemo"></div>#}
-{#    </div>#}
-{#    <div class="layui-tab-item">#}
-{#      <div class="layui-upload-drag" id="uploadDemo">#}
-{#        <i class="layui-icon"></i>#}
-{#        <p>点击上传，或将文件拖拽到此处</p>#}
-{#      </div>#}
-{#    </div>#}
-{#    <div class="layui-tab-item">#}
-{#      <div id="sliderDemo" style="margin: 50px 20px;"></div>#}
-{#    </div>#}
-{#  </div>#}
-{#</div>#}
-{##}
-{#<blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">layui  提供强力驱动</blockquote>#}
-
-
 <script src="../static/layui/layui.js"></script>
 <script src="../static/layui/table.js"></script>
 <script src="../static/jquery.js"></script>
 <script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
 
+  //…
+});
 </script>
 </body>
 <form class="layui-form" id="form_id" hidden="true"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
@@ -96,25 +76,7 @@
       </select>
     </div>
   </div>
-{#  <div class="layui-form-item">#}
-{#    <label class="layui-form-label">复选框</label>#}
-{#    <div class="layui-input-block">#}
-{#      <input type="checkbox" name="like[write]" title="写作">#}
-{#      <input type="checkbox" name="like[read]" title="阅读">#}
-{#    </div>#}
-{#  </div>#}
-{#  <div class="layui-form-item">#}
-{#    <label class="layui-form-label">开关关</label>#}
-{#    <div class="layui-input-block">#}
-{#      <input type="checkbox" lay-skin="switch">#}
-{#    </div>#}
-{#  </div>#}
-{#  <div class="layui-form-item">#}
-{#    <label class="layui-form-label">开关开</label>#}
-{#    <div class="layui-input-block">#}
-{#      <input type="checkbox" checked lay-skin="switch">#}
-{#    </div>#}
-{#  </div>#}
+{#点击弹出框#}
   <div class="layui-form-item">
     <label class="layui-form-label">性别</label>
     <div class="layui-input-block">

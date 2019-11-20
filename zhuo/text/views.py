@@ -6,7 +6,7 @@ import datetime
 from decimal import Decimal
 
 from django import http
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import Permission
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -121,10 +121,12 @@ class UserView(View):
                 user_admin = 'lizhuo01'
             user_data = User.objects.get(username=username)
             # 增加用户权限
-            permiss = Permission.objects.get(id=1)
-            user_data.user_permissions.add(permiss)
-            user_per = user_data.get_all_permissions()
+            # permiss = Permission.objects.get(id=1)
+            # user_data.user_permissions.add(permiss)
+            # user_per = user_data.get_all_permissions()
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
+            details = UserDetails.objects.filter(user_id__username=username).values('username')
+            details_username = details[0].get('username')
             return render(request, 'user.html', locals())
         else:
             return redirect(reverse("texts:login"))
@@ -327,3 +329,15 @@ class EchartsView(View):
 
     def get(self, request):
         return render(request, 'echarts.html')
+
+class OutLogin(View):
+    """
+    退出登陆功能
+    """
+    def get(self,request):
+        logout(request)
+        response = redirect(reverse('texts:login'))
+        # 清除cookie数据
+        # response.set_cookie()
+        response.delete_cookie('username')
+        return response
