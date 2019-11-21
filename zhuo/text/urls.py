@@ -9,7 +9,7 @@ urlpatterns = [
     # url(路径, 视图)
     url(r'^register/$', views.RegisterView.as_view(),name='register'),
     url(r'^login/$', views.LoginView.as_view(),name='login'),
-    url(r'^index/$', views.IndexView.as_view(),name='index'),
+    url(r'^$', views.IndexView.as_view(),name='index'),
     url(r'^user/$', views.UserView.as_view(),name='user'),
     url(r'^image/$', views.ImageView.as_view(),name='image'),
     url(r'^about/$', views.AboutView.as_view(),name='about'),

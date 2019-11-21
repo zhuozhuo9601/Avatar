@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Index</title>
+<title>你值得拥有</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -32,16 +32,24 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a  href="{{ url('texts:user') }}"><h1>Games <img src="../static/images/c1.png" alt=" " /> Everyone</h1></a>
+                    {% if username %}
+					    <a  href="#"><h1><img src="../static/images/c1.png" alt=" " />{{ username }}</h1></a>
+                    {% else %}
+                        <a  href="#"><h1>Games <img src="../static/images/c1.png" alt=" " /> Everyone</h1></a>
+                    {% endif %}
 				</div>
 
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="hover-effect"><a href="{{ url('texts:index') }}">Home</a></li>
-						<li class="hover-effect"><a href="{{ url('texts:about') }}">About</a></li>
-						<li class="hover-effect"><a href="{{ url('texts:games') }}">Games</a></li>
-						<li class="hover-effect"><a href="{{ url('texts:news') }}">News</a></li>
-						<li class="hover-effect"><a href="{{ url('texts:contact') }}">Contact</a></li>
+						<li class="hover-effect"><a href="{{ url('texts:index') }}">首页</a></li>
+                        {% if username %}
+                            <li class="hover-effect"><a href="{{ url('texts:user') }}">图片展示</a></li>
+                            <li class="hover-effect"><a href="{{ url('texts:table') }}">个人资料</a></li>
+                            <li class="hover-effect"><a href="{{ url('study:study_first') }}">邮箱</a></li>
+                            <li class="hover-effect"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
+                        {% else %}
+                            <li class="hover-effect"><a href="{{ url('texts:login') }}">去登陆</a></li>
+                        {% endif %}
 					</ul>
 				</div>
 

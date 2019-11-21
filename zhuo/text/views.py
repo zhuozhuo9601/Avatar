@@ -96,7 +96,6 @@ class LoginView(View):
                 return http.HttpResponse('0')
 
 
-@method_decorator(user_login, name='get')
 class IndexView(View):
     """
     首页
@@ -105,9 +104,9 @@ class IndexView(View):
     def get(self, request):
         user = request.user.username
         if user:
-            return render(request, 'index.html')
-        else:
-            return redirect(reverse("texts:login"))
+            user_data = UserDetails.objects.filter(user_id__username=user).values('username')
+            username = user_data[0].get('username')
+        return render(request, 'index.html', locals())
 
 
 @method_decorator(user_login, name='get')
@@ -159,26 +158,18 @@ class ImageView(View):
     """
 
     def post(self, request):
-        json_dict = {'code': '1', 'msg': '图片上传成功'}
-        if request.POST.get('file'):
+        if request.FILES.get('file'):
             img = request.FILES.get('file')
             try:
                 username = request.user.username
                 if img:
                     user = User.objects.get(username=username)
                     Image.objects.create(img_url=img, content_one='系列', content_two='...', ima_name=user)
-                    data = json.dumps(json_dict)
-                    return http.HttpResponse(data)
+                    return http.HttpResponse('图片上传成功')
             except Exception as e:
-                json_dict['code'] = '0'
-                json_dict['msg'] = '图片上传失败'
-                data = json.dumps(json_dict)
-                return http.HttpResponse(data)
+                return http.HttpResponse('图片上传失败')
         else:
-            json_dict['code'] = '0'
-            json_dict['msg'] = '请选择图片'
-            data = json.dumps(json_dict)
-            return http.HttpResponse(data)
+            return http.HttpResponse('请选择一个图片')
 
 
 @method_decorator(user_login, name='get')

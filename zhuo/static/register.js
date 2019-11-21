@@ -39,7 +39,7 @@ function loginData() {
         logindata, function (data) {
             if (data != '0') {
                 layer.msg('登陆成功');
-                window.location.href = '/index';
+                window.location.href = '/';
             }
             else {
                 layer.msg('登陆失败');
@@ -58,7 +58,7 @@ function imageData(id) {
                 $('#imageid').html('');
                 $('#imageid').append("<img src=" + imagedata.images.images + " width='200px'>" +
                     "<h1>" + imagedata.images.content_one + "</h1>" +
-                    "<h2>" + imagedata.images.content_two + "</h2>")
+                    "<h2>" + imagedata.images.content_two + "</h2>");
                 layer.msg(imagedata.msg);
             } else {
                 layer.msg(imagedata.msg);

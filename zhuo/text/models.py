@@ -3,6 +3,9 @@ from django.db import models
 
 
 # Create your models here.
+from system.storage import ImageStorage
+
+
 class User(AbstractUser):
     """自定义用户模型类"""
     mobile = models.CharField(max_length=11, unique=True, verbose_name='手机号')
@@ -19,7 +22,7 @@ class User(AbstractUser):
 class Image(models.Model):
     """图片上传模型类"""
     ima_name = models.ForeignKey(User,max_length=20,null=True)
-    img_url = models.ImageField(upload_to='static/userimages')  # upload_to指定图片上传的途径，如果不存在则自动创建
+    img_url = models.ImageField(upload_to='static/userimages',storage=ImageStorage())  # upload_to指定图片上传的途径，如果不存在则自动创建
     content_one = models.CharField(max_length=200, blank=True)
     content_two = models.CharField(max_length=200, blank=True)
 
