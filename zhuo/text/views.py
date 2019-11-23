@@ -152,6 +152,28 @@ class UserView(View):
 
 
 @method_decorator(user_login, name='post')
+class UserAdd(View):
+    """
+    个人资料添加
+    """
+
+    def post(self, request):
+        add_dict = json.loads(request.body.decode())
+        user = request.user.username
+        try:
+            if add_dict and user:
+                UserDetails.objects.filter(user_id__username=user).update(**add_dict)
+                json_dict = {'code': '1', 'msg': '添加成功'}
+                data = json.dumps(json_dict)
+                return http.HttpResponse(data)
+        except Exception as e:
+            json_dict = {'code': '0', 'msg': '添加失败'}
+            data = json.dumps(json_dict)
+            return http.HttpResponse(data)
+
+
+
+@method_decorator(user_login, name='post')
 class ImageView(View):
     """
     图片上传功能

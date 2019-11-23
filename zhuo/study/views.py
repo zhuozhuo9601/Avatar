@@ -53,3 +53,15 @@ def send(request):
     print("邮件发送成功！！！")
     smtpObj.quit()
     return http.HttpResponse('200')
+
+
+def study_text(request):
+    print('123')
+    return http.HttpResponse('必须有一个返回值，或者使用ajax')
+
+def study_json(request):
+    post = request.body
+    data = post.decode()
+    json_data = json.loads(data)
+    print(json_data)
+    return http.HttpResponse('测试前端发送json数据接收')

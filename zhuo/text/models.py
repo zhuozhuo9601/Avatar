@@ -48,9 +48,11 @@ class UserDetails(models.Model):
     sex = models.CharField(max_length=10)
     score = models.IntegerField()
     city = models.CharField(max_length=100)
+    province = models.CharField(max_length=100, null=True)
+    area = models.CharField(max_length=100, null=True)
     sign = models.CharField(max_length=200)
     classify = models.CharField(max_length=200)
     wealth = models.IntegerField()
-
+    time = models.DateField(null=True)
     class Meta:
         db_table = 'text_userdetails'

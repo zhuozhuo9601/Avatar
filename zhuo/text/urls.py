@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^table_delete/$', views.TableDelete.as_view(),name='table_delete'),
     url(r'^echarts/$', views.EchartsView.as_view(),name='echarts'),
     url(r'^outlogin/$', views.OutLogin.as_view(),name='outlogin'),
+    url(r'^user_add/$', views.UserAdd.as_view(),name='user_add'),
 ]
