@@ -68,3 +68,8 @@ function imageData(id) {
         });
 }
 
+// 省市区三级联动
+function city_Linkage() {
+    alert('选中了');
+    console.log('sadsadada');
+}

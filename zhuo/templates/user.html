@@ -160,11 +160,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">城市</label>
                         <div class="layui-input-inline">
-                            <select name="province">
+                            <select name="province" lay-filter="select_one" lay-verify="required">
                                 <option value="">请选择省</option>
-                                <option value="浙江" selected="">浙江省</option>
-                                <option value="你的工号">江西省</option>
-                                <option value="你最喜欢的老师">福建省</option>
+                                {% if province %}
+                                    {% for id,data in province %}
+                                        <option value={{ id }}>{{ data }}</option>
+                                    {% endfor %}
+                                {% endif %}
                             </select>
                         </div>
                         <div class="layui-input-inline">
@@ -302,7 +304,9 @@
             });
 
     });
-
+        form.on('select(select_one)',function (data) {
+            console.log(data.value);
+        })
     });
 </script>
 </body>

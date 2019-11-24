@@ -56,3 +56,11 @@ class UserDetails(models.Model):
     time = models.DateField(null=True)
     class Meta:
         db_table = 'text_userdetails'
+
+class UserCity(models.Model):
+    """省市区三级联动"""
+    city = models.CharField(max_length=50)
+    Subordinate_id = models.IntegerField(null=True)
+    mark_id = models.IntegerField(null=True)
+    class Meta:
+        db_table = 'text_city'

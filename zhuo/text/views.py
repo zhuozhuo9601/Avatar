@@ -17,7 +17,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from text.base import user_login
-from text.models import User, Image, ImageDetails, UserDetails
+from text.models import User, Image, ImageDetails, UserDetails, UserCity
 
 
 class ComplexEncoder(json.JSONEncoder):
@@ -125,6 +125,7 @@ class UserView(View):
             # permiss = Permission.objects.get(id=1)
             # user_data.user_permissions.add(permiss)
             # user_per = user_data.get_all_permissions()
+            province = UserCity.objects.filter(mark_id=1).values_list('id','city')
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
             details = UserDetails.objects.filter(user_id__username=username).values('username')
             if details:
@@ -160,14 +161,23 @@ class UserAdd(View):
     def post(self, request):
         add_dict = json.loads(request.body.decode())
         user = request.user.username
+        json_dict = {'code': '', 'msg': ''}
         try:
             if add_dict and user:
+                for add_value in add_dict:
+                    if len(add_value) > 30:
+                        json_dict['code'] = '0'
+                        json_dict['msg'] = '格式输入错误'
+                        data = json.dumps(json_dict)
+                        return http.HttpResponse(data)
                 UserDetails.objects.filter(user_id__username=user).update(**add_dict)
-                json_dict = {'code': '1', 'msg': '添加成功'}
+                json_dict['code'] = '1'
+                json_dict['msg'] = '添加成功'
                 data = json.dumps(json_dict)
                 return http.HttpResponse(data)
         except Exception as e:
-            json_dict = {'code': '0', 'msg': '添加失败'}
+            json_dict['code'] = '0'
+            json_dict['msg'] = '添加失败'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
 
