@@ -301,6 +301,7 @@
             $.post('/user_city/', {"id": data.value}, function (p_data) {
                 var p_value = JSON.parse(p_data);
                 $("#select_two").html('');
+                $("#select_two").append("<option value=''>请选择市</option>");
                 for (var i = 0; i < p_value.length; i++) {
                     $("#select_two").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
                     renderForm();//表单重新渲染，要不然添加完显示不出来新的option
@@ -312,6 +313,7 @@
             $.post('/user_city/', {"id": data.value}, function (p_data) {
                 var p_value = JSON.parse(p_data);
                 $('#select_three').html('');
+                $("#select_three").append("<option value=''>请选择区</option>");
                 for (var i = 0; i < p_value.length; i++) {
                     $("#select_three").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
                     renderForm();//表单重新渲染，要不然添加完显示不出来新的option
