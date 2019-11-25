@@ -105,7 +105,10 @@ class IndexView(View):
         user = request.user.username
         if user:
             user_data = UserDetails.objects.filter(user_id__username=user).values('username')
-            username = user_data[0].get('username')
+            if user_data:
+                username = user_data[0].get('username')
+            else:
+                username = '路人'
         return render(request, 'index.html', locals())
 
 
@@ -125,11 +128,15 @@ class UserView(View):
             # permiss = Permission.objects.get(id=1)
             # user_data.user_permissions.add(permiss)
             # user_per = user_data.get_all_permissions()
-            province = UserCity.objects.filter(mark_id=1).values_list('id','city')
+            province = UserCity.objects.filter(mark_id=1).values_list('id', 'city')
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
-            details = UserDetails.objects.filter(user_id__username=username).values('username')
+            details = UserDetails.objects.filter(user_id__username=username).values('username', 'sex', 'city',
+                                                                                    'province', 'area', 'sign', 'hobby',
+                                                                                    'birthday', 'career')
             if details:
                 details_username = details[0].get('username')
+            else:
+                details_username = '路人'
             return render(request, 'user.html', locals())
         else:
             return redirect(reverse("texts:login"))
@@ -164,13 +171,12 @@ class UserAdd(View):
         json_dict = {'code': '', 'msg': ''}
         try:
             if add_dict and user:
-                for add_value in add_dict:
-                    if len(add_value) > 30:
-                        json_dict['code'] = '0'
-                        json_dict['msg'] = '格式输入错误'
-                        data = json.dumps(json_dict)
-                        return http.HttpResponse(data)
-                UserDetails.objects.filter(user_id__username=user).update(**add_dict)
+                create_dict = {}
+                for key in add_dict:
+                    if add_dict[key] and len(add_dict[key]) < 30:
+                        create_dict[key] = add_dict[key]
+                user_object = User.objects.get(username=user)
+                userdetails = UserDetails.objects.update_or_create(user_id=user_object, defaults=create_dict)
                 json_dict['code'] = '1'
                 json_dict['msg'] = '添加成功'
                 data = json.dumps(json_dict)
@@ -180,7 +186,6 @@ class UserAdd(View):
             json_dict['msg'] = '添加失败'
             data = json.dumps(json_dict)
             return http.HttpResponse(data)
-
 
 
 @method_decorator(user_login, name='post')
@@ -376,21 +381,23 @@ class OutLogin(View):
         response.delete_cookie('username')
         return response
 
+
 class UserProvince(View):
     """
     省市区三级联动
     """
-    def post(self,request):
+
+    def post(self, request):
         id_list = request.POST.getlist('id')
         id = id_list[0]
         if id:
             city_list = []
-            user_data = UserCity.objects.filter(Subordinate_id=id).values_list('id','city')
-            for key,value in user_data:
+            user_data = UserCity.objects.filter(Subordinate_id=id).values_list('id', 'city')
+            for key, value in user_data:
                 if key and value:
                     city_dict = {}
                     city_dict['id'] = key
                     city_dict['city'] = value
                     city_list.append(city_dict)
-        city_data = json.dumps(city_list,cls=ComplexEncoder)
+        city_data = json.dumps(city_list, cls=ComplexEncoder)
         return http.HttpResponse(city_data)

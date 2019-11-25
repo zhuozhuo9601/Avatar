@@ -78,75 +78,31 @@
             </div>
             <div class="modal-body">
                 <form class="layui-form layui-form-pane" id="userform">
-                    <div class="layui-form-item">
+                <div class="layui-form-item">
                         <label class="layui-form-label">昵称：</label>
                         <div class="layui-input-block">
                             <input type="text" name="username" autocomplete="off" placeholder="请输入昵称"
                                    class="layui-input">
                         </div>
                     </div>
-                    {#                    <div class="layui-form-item">#}
-                    {#                        <label class="layui-form-label">短输入框</label>#}
-                    {#                        <div class="layui-input-inline">#}
-                    {#                            <input type="text" name="username" lay-verify="required" placeholder="请输入"#}
-                    {#                                   autocomplete="off" class="layui-input">#}
-                    {#                        </div>#}
-                    {#                    </div>#}
-
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">生日</label>
                             <div class="layui-input-block">
-                                <input type="text" name="time" id="date1" autocomplete="off" class="layui-input">
+                                <input type="text" name="birthday" id="date1" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">积分</label>
+                            <label class="layui-form-label">职业</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="experience" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">得分</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="score" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">财富</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="wealth" autocomplete="off" class="layui-input">
+                                <input type="text" name="career" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
-                    {#                    <div class="layui-form-item">#}
-                    {#                        <label class="layui-form-label">密码</label>#}
-                    {#                        <div class="layui-input-inline">#}
-                    {#                            <input type="password" name="password" placeholder="请输入密码" autocomplete="off"#}
-                    {#                                   class="layui-input">#}
-                    {#                        </div>#}
-                    {#                        <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>#}
-                    {#                    </div>#}
-                    {##}
-                    {#                    <div class="layui-form-item">#}
-                    {#                        <div class="layui-inline">#}
-                    {#                            <label class="layui-form-label">范围</label>#}
-                    {#                            <div class="layui-input-inline" style="width: 100px;">#}
-                    {#                                <input type="text" name="price_min" placeholder="￥" autocomplete="off"#}
-                    {#                                       class="layui-input">#}
-                    {#                            </div>#}
-                    {#                            <div class="layui-form-mid">-</div>#}
-                    {#                            <div class="layui-input-inline" style="width: 100px;">#}
-                    {#                                <input type="text" name="price_max" placeholder="￥" autocomplete="off"#}
-                    {#                                       class="layui-input">#}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
-
                     <div class="layui-form-item">
-                        <label class="layui-form-label">职业</label>
+                        <label class="layui-form-label">爱好</label>
                         <div class="layui-input-block">
-                            <select name="classify" lay-filter="aihao">
+                            <select name="hobby" lay-filter="aihao">
                                 <option value=""></option>
                                 <option value="0">写作</option>
                                 <option value="1" selected="">阅读</option>
@@ -180,13 +136,7 @@
                             </select>
                         </div>
                     </div>
-                    {#                    <div class="layui-form-item" pane="">#}
-                    {#                        <label class="layui-form-label">开关-开</label>#}
-                    {#                        <div class="layui-input-block">#}
-                    {#                            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest"#}
-                    {#                                   title="开关">#}
-                    {#                        </div>#}
-                    {#                    </div>#}
+
                     <div class="layui-form-item" pane="">
                         <label class="layui-form-label">性别</label>
                         <div class="layui-input-block">
@@ -202,7 +152,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <button class="layui-btn" id="useradd" style="margin-left: 40%">确认</button>
+                        <button class="layui-btn" id="useradd" style="margin-left: 40%" type="button">确认</button>
                     </div>
                 </form>
 
@@ -286,11 +236,10 @@
                 data: add_dict,
                 // result 为请求的返回结果对象
                 success: function (result) {
-                    json = JSON.stringify(result);
-                    if (json.code == '1') {
-                        layer.msg(json.msg);
+                    if (result.code == '1') {
+                        layer.msg(result.msg);
                     } else {
-                        layer.msg(json.msg);
+                        layer.msg(result.msg);
                     }
                 }
             });

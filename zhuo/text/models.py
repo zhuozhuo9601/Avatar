@@ -44,16 +44,14 @@ class UserDetails(models.Model):
     """个人信息详情模型类"""
     user_id = models.ForeignKey("User", to_field="id", null=True, on_delete=models.CASCADE)
     username = models.CharField(max_length=200)
-    experience = models.IntegerField()
     sex = models.CharField(max_length=10)
-    score = models.IntegerField()
     city = models.CharField(max_length=100)
     province = models.CharField(max_length=100, null=True)
     area = models.CharField(max_length=100, null=True)
     sign = models.CharField(max_length=200)
-    classify = models.CharField(max_length=200)
-    wealth = models.IntegerField()
-    time = models.DateField(null=True)
+    hobby = models.CharField(max_length=200)
+    birthday = models.DateField(null=True)
+    career = models.CharField(max_length=100,null=True)
     class Meta:
         db_table = 'text_userdetails'
 
