@@ -170,21 +170,13 @@
                             </select>
                         </div>
                         <div class="layui-input-inline">
-                            <select name="city">
+                            <select name="city" id="select_two" lay-filter="select_two" lay-verify="required">
                                 <option value="">请选择市</option>
-                                <option value="杭州">杭州</option>
-                                <option value="宁波" disabled="">宁波</option>
-                                <option value="温州">温州</option>
-                                <option value="温州">台州</option>
-                                <option value="温州">绍兴</option>
                             </select>
                         </div>
                         <div class="layui-input-inline">
-                            <select name="area">
+                            <select name="area" id="select_three" lay-filter="select_three" lay-verify="required">
                                 <option value="">请选择县/区</option>
-                                <option value="西湖区">西湖区</option>
-                                <option value="余杭区">余杭区</option>
-                                <option value="拱墅区">临安市</option>
                             </select>
                         </div>
                     </div>
@@ -238,35 +230,35 @@
         var editIndex = layedit.build('LAY_demo_editor');
 
         //监听提交
-{#        form.on('submit(demo2)', function (data) {#}
-            {#            layer.alert(JSON.stringify(data.field), {#}
-            {#                title: '最终的提交信息'#}
-            {#            });#}
-            {#            return false;#}
-{##}
-{#            $.ajax({#}
-{#                // 请求方式#}
-{#                type: "post",#}
-{#                // contentType#}
-{#                contentType: "application/json",#}
-{#                // dataType#}
-{#                dataType: "json",#}
-{#                // url#}
-{#                url: /table_add/,#}
-{#                // 把JS的对象或数组序列化一个json 字符串#}
-{#                data: JSON.stringify(data.field),#}
-{#                // result 为请求的返回结果对象#}
-{#                success: function (result) {#}
-{#                    json = JSON.parse(result);#}
-{#                    console.log(json);#}
-{#                    if (json.code == '1') {#}
-{#                        layer.msg(json.msg);#}
-{#                    } else {#}
-{#                        layer.msg(json.msg);#}
-{#                    }#}
-{#                }#}
-{#            });#}
-{#        });#}
+        {#        form.on('submit(demo2)', function (data) {#}
+        {#            layer.alert(JSON.stringify(data.field), {#}
+        {#                title: '最终的提交信息'#}
+        {#            });#}
+        {#            return false;#}
+        {##}
+        {#            $.ajax({#}
+        {#                // 请求方式#}
+        {#                type: "post",#}
+        {#                // contentType#}
+        {#                contentType: "application/json",#}
+        {#                // dataType#}
+        {#                dataType: "json",#}
+        {#                // url#}
+        {#                url: /table_add/,#}
+        {#                // 把JS的对象或数组序列化一个json 字符串#}
+        {#                data: JSON.stringify(data.field),#}
+        {#                // result 为请求的返回结果对象#}
+        {#                success: function (result) {#}
+        {#                    json = JSON.parse(result);#}
+        {#                    console.log(json);#}
+        {#                    if (json.code == '1') {#}
+        {#                        layer.msg(json.msg);#}
+        {#                    } else {#}
+        {#                        layer.msg(json.msg);#}
+        {#                    }#}
+        {#                }#}
+        {#            });#}
+        {#        });#}
 
         //表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
@@ -275,13 +267,13 @@
         });
 
         $("#useradd").click(function () {
-        var formObject = {};
-        var formArray = $("#userform").serializeArray();
-        $.each(formArray, function (i, item) {
-            formObject[item.name] = item.value;
-        });
-        var add_dict = JSON.stringify(formObject);
-        $.ajax({
+            var formObject = {};
+            var formArray = $("#userform").serializeArray();
+            $.each(formArray, function (i, item) {
+                formObject[item.name] = item.value;
+            });
+            var add_dict = JSON.stringify(formObject);
+            $.ajax({
                 // 请求方式
                 type: "post",
                 // contentType
@@ -303,10 +295,36 @@
                 }
             });
 
-    });
-        form.on('select(select_one)',function (data) {
-            console.log(data.value);
-        })
+        });
+        // 点击省发送post请求获取市的数据
+        form.on('select(select_one)', function (data) {
+            $.post('/user_city/', {"id": data.value}, function (p_data) {
+                var p_value = JSON.parse(p_data);
+                $("#select_two").html('');
+                for (var i = 0; i < p_value.length; i++) {
+                    $("#select_two").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
+                    renderForm();//表单重新渲染，要不然添加完显示不出来新的option
+                }
+            })
+        });
+        // 点击市发送post请求获取区的数据
+        form.on('select(select_two)', function (data) {
+            $.post('/user_city/', {"id": data.value}, function (p_data) {
+                var p_value = JSON.parse(p_data);
+                $('#select_three').html('');
+                for (var i = 0; i < p_value.length; i++) {
+                    $("#select_three").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
+                    renderForm();//表单重新渲染，要不然添加完显示不出来新的option
+                }
+            })
+        });
+        //重新渲染表单
+        function renderForm() {
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        }
     });
 </script>
 </body>

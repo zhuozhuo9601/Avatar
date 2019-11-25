@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^echarts/$', views.EchartsView.as_view(),name='echarts'),
     url(r'^outlogin/$', views.OutLogin.as_view(),name='outlogin'),
     url(r'^user_add/$', views.UserAdd.as_view(),name='user_add'),
+    url(r'^user_city/$', views.UserProvince.as_view(),name='user_city'),
 ]
