@@ -59,13 +59,14 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left', totalRowText: '合计：'}
             , {field: 'username', title: '用户名', width: 80}
-            , {field: 'experience', title: '积分', width: 90, sort: true, totalRow: true}
+            , {field: 'birthday', title: '生日', width: 90, sort: true, totalRow: true}
             , {field: 'sex', title: '性别', width: 80, sort: true}
-            , {field: 'score', title: '评分', width: 80, sort: true, totalRow: true}
+            , {field: 'province', title: '省份', width: 80, sort: true, totalRow: true}
             , {field: 'city', title: '城市', width: 150}
-            , {field: 'sign', title: '签名', width: 200}
-            , {field: 'classify', title: '职业', width: 100}
-            , {field: 'wealth', title: '财富', width: 135, sort: true, totalRow: true}
+            , {field: 'area', title: '区', width: 200}
+            , {field: 'hobby', title: '爱好', width: 100}
+            , {field: 'career', title: '职业', width: 100}
+            , {field: 'sign', title: '签名', width: 135, sort: true, totalRow: true}
             , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
         ]]
     });

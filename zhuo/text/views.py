@@ -269,16 +269,18 @@ class TableView(View):
         return render(request, 'table.html', locals())
 
     def post(self, request):
-        user = UserDetails.objects.all().values('id', 'username', 'experience', 'sex', 'score', 'city', 'sign',
-                                                'classify', 'wealth')
+        user = UserDetails.objects.all().values('id', 'username', 'province', 'sex', 'hobby', 'city', 'sign',
+                                                'birthday', 'career', 'area')
         paginator = Paginator(user, 10)
         page = request.POST.get('page', 1)
         paginator_data = paginator.page(page)
         user_list = []
         for user_data in paginator_data:
+            if user_data['birthday']:
+                user_data['birthday'] = user_data['birthday'].strftime('%Y-%m-%d')
             user_list.append(user_data)
-        user_dict = {'code': '0', 'msg': '', 'data': user_list}
-        data = json.dumps(user_dict)
+        user_dict = {'code': '0', 'msg': '表格数据刷新成功', 'data': user_list}
+        data = json.dumps(user_dict, cls=ComplexEncoder)
         return http.HttpResponse(data)
 
 

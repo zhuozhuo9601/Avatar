@@ -78,7 +78,7 @@
             </div>
             <div class="modal-body">
                 <form class="layui-form layui-form-pane" id="userform">
-                <div class="layui-form-item">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">昵称：</label>
                         <div class="layui-input-block">
                             <input type="text" name="username" autocomplete="off" placeholder="请输入昵称"
@@ -237,9 +237,9 @@
                 // result 为请求的返回结果对象
                 success: function (result) {
                     if (result.code == '1') {
-                        layer.msg(result.msg);
+                        layer.msg(result.msg, {icon: 6});
                     } else {
-                        layer.msg(result.msg);
+                        layer.msg(result.msg, {icon: 2});
                     }
                 }
             });
