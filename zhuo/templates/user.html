@@ -238,6 +238,7 @@
                 success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.msg, {icon: 6});
+                        $('#myModal').modal('hide');
                     } else {
                         layer.msg(result.msg, {icon: 2});
                     }
