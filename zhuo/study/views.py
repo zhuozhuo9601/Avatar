@@ -137,7 +137,9 @@ def forget_modify(request):
         try:
             username = modify_dict.get('username')
             password = modify_dict.get('password1')
-            User.objects.filter(username=username).update(password=password)
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user.save()
             response_dict['code'] = '200'
             response_dict['message'] = '修改密码成功'
             return http.HttpResponse(json.dumps(response_dict))
