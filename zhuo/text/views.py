@@ -182,7 +182,12 @@ class UserAdd(View):
                         else:
                             create_dict[key] = add_dict[key]
                 user_object = User.objects.get(username=user)
-                userdetails = UserDetails.objects.update_or_create(user_id=user_object, defaults=create_dict)
+                userdetails = UserDetails.objects.filter(user_id=user_object)
+                if userdetails:
+                    userdetails.update(**create_dict)
+                else:
+                    create_dict['user_id'] = user_object
+                    UserDetails.objects.create(**create_dict)
                 json_dict['code'] = '1'
                 json_dict['msg'] = '添加成功'
                 data = json.dumps(json_dict)
