@@ -15,6 +15,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 
 from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails, UserCity
@@ -389,23 +390,23 @@ class OutLogin(View):
         return response
 
 
-class UserProvince(View):
+# @cache_page(60, cache='default', key_prefix='mysite')
+@cache_page(60)
+def UserProvince(request):
     """
     省市区三级联动
     """
-
-    def post(self, request):
-        id_list = request.POST.getlist('id')
-        id = id_list[0]
-        if id:
-            city_list = []
-            sub_id = id.split('-')[0]
-            user_data = UserCity.objects.filter(Subordinate_id=sub_id).values_list('id', 'city')
-            for key, value in user_data:
-                if key and value:
-                    city_dict = {}
-                    city_dict['id'] = key
-                    city_dict['city'] = value
-                    city_list.append(city_dict)
-        city_data = json.dumps(city_list, cls=ComplexEncoder)
-        return http.HttpResponse(city_data)
+    id_list = request.POST.getlist('id')
+    id = id_list[0]
+    if id:
+        city_list = []
+        sub_id = id.split('-')[0]
+        user_data = UserCity.objects.filter(Subordinate_id=sub_id).values_list('id', 'city')
+        for key, value in user_data:
+            if key and value:
+                city_dict = {}
+                city_dict['id'] = key
+                city_dict['city'] = value
+                city_list.append(city_dict)
+    city_data = json.dumps(city_list, cls=ComplexEncoder)
+    return http.HttpResponse(city_data)

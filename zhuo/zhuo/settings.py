@@ -41,6 +41,9 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # 配置全站缓存
+    'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +52,17 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+
+    # 配置全站缓存
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+#设置缓存的生命周期，若在缓存配置CACHES中设置TIMEOUT属性，则程序优先选择这里的设置
+# CACHE_MIDDLEWARE_SECONDS = 15
+#设置缓存数据保存在数据表my_cache_table中，属性值default来自于缓存配置CACHES的default属性
+# CACHE_MIDDLEWARE_ALIAS = 'default'
+#设置缓存表字段cache_key的值，用于同一个Django项目多个站点之间的共享缓存
+# CACHE_MIDDLEWARE_KEY_PREFIX = 'mysite'
 
 ROOT_URLCONF = 'zhuo.urls'
 
@@ -104,9 +117,26 @@ DATABASES = {
     }
 }
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.8/topics/i18n/
+#BACKEND用于配置缓存引擎，LOCATION用于数据表的命名
+CACHES = {
+    'default':{
+        'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION':'mysite_text_city',
+        #设置缓存的生命周期，以秒为单位，若为None，则永不过期
+        'TIMEOUT': 60,
+        'OPTIONS':{
+            #MAX_ENTRIES代表最大缓存记录的数量
+            'MAX_ENTRIES': 1000,
+            #当缓存到达最大数量之后，设置剔除缓存的数量
+            'CULL_FREQUENCY': 3,
+        }
+    },
+    # 设置多个缓存数据表
+#     'mysite':{
+#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION':'mysite_text_city',
+# }
+}
 
 LANGUAGE_CODE = 'zh-hans'
 
