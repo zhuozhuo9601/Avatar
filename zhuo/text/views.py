@@ -134,6 +134,7 @@ class UserView(View):
                                                                                     'province', 'area', 'sign', 'hobby',
                                                                                     'birthday', 'career')
             if details:
+                details_value = details[0]
                 details_username = details[0].get('username')
             else:
                 details_username = '路人'
@@ -174,7 +175,11 @@ class UserAdd(View):
                 create_dict = {}
                 for key in add_dict:
                     if add_dict[key] and len(add_dict[key]) < 30:
-                        create_dict[key] = add_dict[key]
+                        if key == 'province' or key == 'city' or key == 'area':
+                            city_value = add_dict[key].split('-')[1]
+                            create_dict[key] = city_value
+                        else:
+                            create_dict[key] = add_dict[key]
                 user_object = User.objects.get(username=user)
                 userdetails = UserDetails.objects.update_or_create(user_id=user_object, defaults=create_dict)
                 json_dict['code'] = '1'
@@ -394,7 +399,8 @@ class UserProvince(View):
         id = id_list[0]
         if id:
             city_list = []
-            user_data = UserCity.objects.filter(Subordinate_id=id).values_list('id', 'city')
+            sub_id = id.split('-')[0]
+            user_data = UserCity.objects.filter(Subordinate_id=sub_id).values_list('id', 'city')
             for key, value in user_data:
                 if key and value:
                     city_dict = {}

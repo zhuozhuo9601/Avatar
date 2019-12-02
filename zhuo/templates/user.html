@@ -25,13 +25,13 @@
     </li>
     <li class="layui-nav-item"><a href="">社区</a></li>
 </ul>
-<div style="margin-left: 35%">
+<div style="margin-left: 40%">
     <h1>你好，{{ details_username }}</h1>
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">完善个人资料</button>
+    <button class="btn btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-left: 4%">完善个人资料</button>
 </div>
 {% if user_admin %}
     <form action="/image/" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
+        <input type="file" name="file" accept='image/*'>
         <input type="submit" value="上传">
     </form>
 
@@ -78,10 +78,11 @@
             </div>
             <div class="modal-body">
                 <form class="layui-form layui-form-pane" id="userform">
+                {% if details_value %}
                     <div class="layui-form-item">
                         <label class="layui-form-label">昵称：</label>
                         <div class="layui-input-block">
-                            <input type="text" name="username" autocomplete="off" placeholder="请输入昵称"
+                            <input type="text" name="username" autocomplete="off" placeholder=""
                                    class="layui-input">
                         </div>
                     </div>
@@ -104,11 +105,11 @@
                         <div class="layui-input-block">
                             <select name="hobby" lay-filter="aihao">
                                 <option value=""></option>
-                                <option value="0">写作</option>
-                                <option value="1" selected="">阅读</option>
-                                <option value="2">游戏</option>
-                                <option value="3">音乐</option>
-                                <option value="4">旅行</option>
+                                <option value="写作">写作</option>
+                                <option value="阅读" selected="">阅读</option>
+                                <option value="游戏">游戏</option>
+                                <option value="音乐">音乐</option>
+                                <option value="旅行">旅行</option>
                             </select>
                         </div>
                     </div>
@@ -120,7 +121,7 @@
                                 <option value="">请选择省</option>
                                 {% if province %}
                                     {% for id,data in province %}
-                                        <option value={{ id }}>{{ data }}</option>
+                                        <option value="{{ id }}-{{ data }}">{{ data }}</option>
                                     {% endfor %}
                                 {% endif %}
                             </select>
@@ -154,6 +155,84 @@
                     <div class="layui-form-item">
                         <button class="layui-btn" id="useradd" style="margin-left: 40%" type="button">确认</button>
                     </div>
+                {% else %}
+                <div class="layui-form-item">
+                        <label class="layui-form-label">昵称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="username" autocomplete="off" placeholder="请输入昵称"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">生日</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="birthday" id="date1" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">职业</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="career" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">爱好</label>
+                        <div class="layui-input-block">
+                            <select name="hobby" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="写作">写作</option>
+                                <option value="阅读" selected="">阅读</option>
+                                <option value="游戏">游戏</option>
+                                <option value="音乐">音乐</option>
+                                <option value="旅行">旅行</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">城市</label>
+                        <div class="layui-input-inline">
+                            <select name="province" lay-filter="select_one" lay-verify="required">
+                                <option value="">请选择省</option>
+                                {% if province %}
+                                    {% for id,data in province %}
+                                        <option value="{{ id }}-{{ data }}">{{ data }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="city" id="select_two" lay-filter="select_two" lay-verify="required">
+                                <option value="">请选择市</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="area" id="select_three" lay-filter="select_three" lay-verify="required">
+                                <option value="">请选择县/区</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" pane="">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="男" title="男" checked="">
+                            <input type="radio" name="sex" value="女" title="女">
+                            {#                            <input type="radio" name="sex" value="禁" title="禁用" disabled="">#}
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">签名</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" class="layui-textarea" name="sign"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" id="useradd" style="margin-left: 40%" type="button">确认</button>
+                    </div>
+                {% endif %}
                 </form>
 
             </div>
@@ -253,7 +332,7 @@
                 $("#select_two").html('');
                 $("#select_two").append("<option value=''>请选择市</option>");
                 for (var i = 0; i < p_value.length; i++) {
-                    $("#select_two").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
+                    $("#select_two").append("<option value='" + p_value[i].id + '-' + p_value[i].city + "'>" + p_value[i].city + "</option>");
                     renderForm();//表单重新渲染，要不然添加完显示不出来新的option
                 }
             })
@@ -265,7 +344,7 @@
                 $('#select_three').html('');
                 $("#select_three").append("<option value=''>请选择区</option>");
                 for (var i = 0; i < p_value.length; i++) {
-                    $("#select_three").append("<option value='" + p_value[i].id + "'>" + p_value[i].city + "</option>");
+                    $("#select_three").append("<option value='" + p_value[i].id + '-' + p_value[i].city + "'>" + p_value[i].city + "</option>");
                     renderForm();//表单重新渲染，要不然添加完显示不出来新的option
                 }
             })
