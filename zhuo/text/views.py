@@ -396,6 +396,7 @@ class OutLogin(View):
 
 
 # @cache_page(60, cache='default', key_prefix='mysite')
+# @cache_page(60, cache='default1', key_prefix='mysite')
 @cache_page(60)
 def UserProvince(request):
     """
