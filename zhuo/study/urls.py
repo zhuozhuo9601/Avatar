@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^forget_email/$', views.forget_email,name='forget_email'),
     url(r'^forget_password/$', views.forget_password,name='forget_password'),
     url(r'^forget_modify/$', views.forget_modify,name='forget_modify'),
+    url(r'^community/$', views.community,name='community'),
     # url(r'^study_first/(?P<id>\d+)/$', views.study_first,name='study_first'),
 ]

@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'text',
+    'study',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -166,3 +167,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 AUTH_USER_MODEL = 'text.User'
 youxiangmima = 'zhuozhuo9601'
+
+# celery异步
+BROKER_URL = 'redis://:django_redis@localhost:6379/2'

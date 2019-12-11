@@ -9,6 +9,7 @@ from django import http
 from django.shortcuts import render
 
 # Create your views here.
+from study.models import Community
 from text.base import user_login
 from text.models import User
 from zhuo import settings
@@ -151,3 +152,8 @@ def forget_modify(request):
         response_dict['code'] = '500'
         response_dict['message'] = '修改密码失败'
         return http.HttpResponse(json.dumps(response_dict))
+
+# 进入社区页面
+def community(request):
+    community_object = Community.objects.all().values('user', 'title', 'content')
+    return render(request, 'community.html', locals())
