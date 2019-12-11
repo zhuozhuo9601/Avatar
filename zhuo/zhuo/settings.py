@@ -43,7 +43,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     # 配置全站缓存
-    'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.cache.UpdateCacheMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 
     # 配置全站缓存
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 #设置缓存的生命周期，若在缓存配置CACHES中设置TIMEOUT属性，则程序优先选择这里的设置

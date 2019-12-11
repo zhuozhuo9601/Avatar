@@ -9,7 +9,7 @@ from django import http
 from django.shortcuts import render
 
 # Create your views here.
-from study.models import Community
+from study.models import Community, Comment
 from text.base import user_login
 from text.models import User
 from zhuo import settings
@@ -155,5 +155,45 @@ def forget_modify(request):
 
 # 进入社区页面
 def community(request):
-    community_object = Community.objects.all().values('user', 'title', 'content')
+    community_object = Community.objects.all().values('id', 'user', 'title', 'content')
     return render(request, 'community.html', locals())
+
+# 评论返回数据
+def comment(request):
+    id = json.loads(request.body.decode())
+    json_dict = {'code': '1', 'msg': '成功'}
+    if id:
+        try:
+            com_object = Comment.objects.filter(comm=str(id))
+            data_list = []
+            for result in com_object:
+                mk_dict = {}
+                mk_dict['username'] = result.com_user.username
+                mk_dict['comment'] = result.comment
+                data_list.append(mk_dict)
+            json_dict['data'] = data_list
+        except Exception as e:
+            json_dict['code'] = '0'
+            json_dict['msg'] = '加载文章评论失败'
+        return http.HttpResponse(json.dumps(json_dict))
+    else:
+        json_dict['code'] = '0'
+        json_dict['msg'] = '请选择文章'
+        return http.HttpResponse(json.dumps(json_dict))
+
+# 储存用户写的评论
+def comm_store(request):
+    data_dict = json.loads(request.body.decode())
+    json_dict = {'code': '1', 'msg': '成功'}
+    if data_dict:
+        try:
+            c_object = Community.objects.get(id=data_dict['id'])
+            Comment.objects.create(comm=c_object,com_user=c_object.user,comment=data_dict['text'])
+        except Exception as e:
+            json_dict['code'] = '0'
+            json_dict['msg'] = '填写评论出错，请重试'
+        return http.HttpResponse(json.dumps(json_dict))
+    else:
+        json_dict['code'] = '0'
+        json_dict['msg'] = '请填写评论'
+        return http.HttpResponse(json.dumps(json_dict))

@@ -16,18 +16,19 @@
 </head>
 <body>
 <ul class="layui-nav" lay-filter="">
-  <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
-  <li class="layui-nav-item"><a href="{{ url('texts:user') }}">个人中心</a></li>
-  <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
-  <li class="layui-nav-item">
-    <a href="javascript:;">解决方案</a>
-    <dl class="layui-nav-child"> <!-- 二级菜单 -->
-      <dd><a href="">移动模块</a></dd>
-      <dd><a href="">后台模版</a></dd>
-      <dd><a href="">电商平台</a></dd>
-    </dl>
-  </li>
-  <li class="layui-nav-item"><a href="">社区</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:user') }}">个人中心</a></li>
+    <li class="layui-nav-item"><a href="{{ url('study:community') }}">社区</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
+    {#  <li class="layui-nav-item">#}
+    {#    <a href="javascript:;">解决方案</a>#}
+    {#    <dl class="layui-nav-child"> <!-- 二级菜单 -->#}
+    {#      <dd><a href="">移动模块</a></dd>#}
+    {#      <dd><a href="">后台模版</a></dd>#}
+    {#      <dd><a href="">电商平台</a></dd>#}
+    {#    </dl>#}
+    {#  </li>#}
+
 </ul>
 {#<div class="layui-form">#}
 {#  <div class="layui-form-item">#}
@@ -155,41 +156,41 @@
 <a onclick="study_json()">测试返回json数据</a>
 
 <script>
-//注意：导航 依赖 element 模块，否则无法进行功能性操作
-layui.use('element', function(){
-  var element = layui.element;
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function () {
+        var element = layui.element;
 
-  //…
-});
+        //…
+    });
 </script>
 <script>
     function study_json() {
         // 测试json数据返回一个对象成功
         data = {
-            "name":"张三"
+            "name": "张三"
         };
         // 测试json数返回一个列表
-        data_list = ['张三','李四'];
-         $.ajax({
-        // 请求方式
-        type:"post",
-        // contentType
-        contentType:"application/json",
-        // dataType
-        dataType:"json",
-        // url
-        url:/study_json/,
-        // 把JS的对象或数组序列化一个json 字符串
-        data:JSON.stringify(data_list),
-        // result 为请求的返回结果对象
-        success:function (result) {
-            if (200 == result.code){
-                alert("启动成功");
-            }else{
-                alert("启动失败");
+        data_list = ['张三', '李四'];
+        $.ajax({
+            // 请求方式
+            type: "post",
+            // contentType
+            contentType: "application/json",
+            // dataType
+            dataType: "json",
+            // url
+            url: /study_json/,
+            // 把JS的对象或数组序列化一个json 字符串
+            data: JSON.stringify(data_list),
+            // result 为请求的返回结果对象
+            success: function (result) {
+                if (200 == result.code) {
+                    alert("启动成功");
+                } else {
+                    alert("启动失败");
+                }
             }
-        }
-    });
+        });
     }
 </script>
 </body>

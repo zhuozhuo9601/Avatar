@@ -14,16 +14,16 @@
 <ul class="layui-nav layui-bg-blue" lay-filter="">
     <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
     <li class="layui-nav-item"><a href="{{ url('study:study_first') }}">邮箱</a></li>
-    <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
-    <li class="layui-nav-item">
-        <a href="javascript:;">解决方案</a>
-        <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a href="">移动模块</a></dd>
-            <dd><a href="">后台模版</a></dd>
-            <dd><a href="">电商平台</a></dd>
-        </dl>
-    </li>
     <li class="layui-nav-item"><a href="{{ url('study:community') }}">社区</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
+{#    <li class="layui-nav-item">#}
+{#        <a href="javascript:;">解决方案</a>#}
+{#        <dl class="layui-nav-child"> <!-- 二级菜单 -->#}
+{#            <dd><a href="">移动模块</a></dd>#}
+{#            <dd><a href="">后台模版</a></dd>#}
+{#            <dd><a href="">电商平台</a></dd>#}
+{#        </dl>#}
+{#    </li>#}
 </ul>
 <div style="margin-left: 40%">
     <h1>你好，{{ details_username }}</h1>
