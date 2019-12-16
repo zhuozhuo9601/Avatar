@@ -28,7 +28,7 @@ function comment(id) {
                 for(i=0;i<result.data.length;i++){
                     content += '<h5>'+result.data[i]['username'] + ':' +result.data[i]['comment'] +'</h5>';
                 }
-                content += '<textarea id="text'+ id + '" class="form-control"></textarea>';
+                content += '<textarea id="text'+ id + '" class="form-control" style="width: 200px;"></textarea>';
                 content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
                 content += '<button class="btn btn-warning" onclick="send('+id+')">发送</button>';
                 content += '</div>';

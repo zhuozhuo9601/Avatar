@@ -28,6 +28,7 @@
 {#    </li>#}
 
 </ul>
+<div style="width: 500px;margin-left: 30%">
 <table class="table table-striped">
     {% if community_object %}
         {% for data in community_object %}
@@ -41,6 +42,7 @@
         {% endfor %}
     {% endif %}
 </table>
+</div>
 <script>
     layui.use('element', function () {
         var element = layui.element;
