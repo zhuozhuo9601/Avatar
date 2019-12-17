@@ -156,6 +156,12 @@ def forget_modify(request):
 # 进入社区页面
 def community(request):
     community_object = Community.objects.all().values('id', 'user', 'title', 'content')
+    count_list = []
+    for count_id in community_object:
+        counts = Comment.objects.filter(comm=str(count_id['id'])).count()
+        count_list.append(counts)
+    for key, counts in enumerate(count_list):
+        community_object[key]['count'] = counts
     return render(request, 'community.html', locals())
 
 # 评论返回数据
