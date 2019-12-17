@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from django import http
+from django.core.paginator import Paginator
 
 from django.shortcuts import render
 
@@ -166,18 +167,52 @@ def community(request):
 
 # 评论返回数据
 def comment(request):
-    id = json.loads(request.body.decode())
+    """
+    :param current_page: 用户请求的当前页
+    :param total_count:  数据库中查询到的数据总条数
+    :param base_url:    请求的 url 路径
+    :param per_page_count: 每页显示的数据条数
+    :param max_pager_num: 页面上最多显示的页码
+    """
+    id_dict = json.loads(request.body.decode())
     json_dict = {'code': '1', 'msg': '成功'}
+    id = id_dict.get('id', '')
+    page = id_dict.get('page', '')
+    status = id_dict.get('status', '')
     if id:
         try:
             com_object = Comment.objects.filter(comm=str(id))
             data_list = []
-            for result in com_object:
+            # 创建分页器
+            pageTotal = Paginator(com_object, 2)
+            # 页数的列表
+            page_list = pageTotal.page_range
+            # 判断当前页面是否比总页数大
+            if int(page) > pageTotal.num_pages:
+                page = pageTotal.num_pages
+            # 获取第page页的数据
+            com_page = pageTotal.page(page)
+            # 判断当前页是否有下一页，如果有　返回true,没有返回false
+            if com_page.has_next():
+                # 如果有下一页则获取下一页的页码
+                has_next = com_page.next_page_number()
+                json_dict['has_next'] = has_next
+            else:
+                json_dict['has_next'] = '0'
+            # 判断当前页是否有上一页，如果有　返回true,没有返回false
+            if com_page.has_previous():
+                has_previous = com_page.previous_page_number()
+                json_dict['has_previous'] = has_previous
+            else:
+                json_dict['has_previous'] = '0'
+            json_dict['page_list'] = list(page_list)
+            for result in com_page:
                 mk_dict = {}
                 mk_dict['username'] = result.com_user.username
                 mk_dict['comment'] = result.comment
                 data_list.append(mk_dict)
             json_dict['data'] = data_list
+            json_dict['status'] = status
         except Exception as e:
             json_dict['code'] = '0'
             json_dict['msg'] = '加载文章评论失败'
@@ -186,6 +221,7 @@ def comment(request):
         json_dict['code'] = '0'
         json_dict['msg'] = '请选择文章'
         return http.HttpResponse(json.dumps(json_dict))
+
 
 # 储存用户写的评论
 def comm_store(request):

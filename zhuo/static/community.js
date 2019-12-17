@@ -7,7 +7,16 @@ $(document).ready(function () {
 });
 
 // 点击评论显示评论内容
-function comment(id) {
+function comment(id, page) {
+    com_dict = {};
+    if (!page) {
+        page = 1;
+        com_dict['status'] = 'no'
+    } else {
+        com_dict['status'] = 'yes'
+    }
+    com_dict["page"] = page;
+    com_dict["id"] = id;
     $.ajax({
         // 请求方式
         type: "post",
@@ -18,24 +27,62 @@ function comment(id) {
         // url
         url: /comment/,
         // 把JS的对象或数组序列化一个json 字符串
-        data: JSON.stringify(id),
+        data: JSON.stringify(com_dict),
         // result 为请求的返回结果对象
         success: function (result) {
             if (result.code == '1') {
                 // $('#'+id).attr('style', 'display:none');
                 var content = '';
-                content += '<div id="div_' + id +'" style="background-color: #5cebff">';
-                for(i=0;i<result.data.length;i++){
-                    content += '<h5>'+result.data[i]['username'] + ':' +result.data[i]['comment'] +'</h5>';
+                var page_content = '';
+                if (result.status == 'no') {
+                    content += '<div id="div_' + id + '" style="background-color: #5cebff">';
+                    for (i = 0; i < result.data.length; i++) {
+                        content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
+                    }
+                    content += '<input id="text' + id + '" class="form-control" style="width: 400px;" onchange="change_input(' + id + ')" placeholder="写下你的评论...">';
+                    // content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
+                    content += '<button class="btn btn-warning" onclick="send(' + id + ')" disabled id="send' + id + '">发送</button>';
+                    content += '</div>';
+
+                } else {
+                    for (i = 0; i < result.data.length; i++) {
+                        $("#h_" + id + "_" + i).text(result.data[i]['username'] + ':' + result.data[i]['comment']);
+                    }
+                    $('#page' + id).remove();
                 }
-                content += '<input id="text'+ id + '" class="form-control" style="width: 400px;" onchange="change_input('+id+')" placeholder="写下你的评论...">';
-                // content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
-                content += '<button class="btn btn-warning" onclick="send('+id+')" disabled id="send' + id + '">发送</button>';
-                content += '</div>';
-                $('#th_'+id).append(content);
-                var button_text = $('#'+id).text();
-                $('#'+id).text('收起评论');
-                $('#'+id).attr("onclick","hide('" + id + "','" +  button_text + "')");
+                page_content += '<div id="page' + id + '">';
+                page_content += '<ul class="pagination" id="pager">';
+                // {#上一页按钮开始#}
+                // {# 如果当前页有上一页#}
+                if (result.has_previous != '0') {
+                    page_content += '<li><a onclick="comment(' + id + "," + result.has_previous + ')">上一页</a></li>';
+                }
+                // {#  当前页的上一页按钮正常使用#}
+                else {
+                    page_content += '<li class="previous disabled" disabled><a href="#">上一页</a></li>';
+                }
+                // {# 当前页的不存在上一页时,上一页的按钮不可用#}
+                // {#上一页按钮结束#}
+                // {# 页码开始#}
+                for (i = 0; i < result.page_list.length; i++) {
+                    page_content += '<li><a onclick="comment(' + id + "," + result.page_list[i] + ')">' + result.page_list[i] + '</a></li>';
+                }
+                // {#页码结束#}
+                // {# 下一页按钮开始#}
+                if (result.has_next != '0') {
+                    page_content += '<li><a onclick="comment(' + id + "," + result.has_next + ')">下一页</a></li>';
+                }
+                else {
+                    page_content += '<li class="next disabled"><a href="#">下一页</a></li>';
+                }
+                // {# 下一页按钮结束#}
+                page_content += '</ul>';
+                page_content += '</div>';
+                $('#th_' + id).append(content);
+                $('#th_' + id).append(page_content);
+                var button_text = $('#' + id).text();
+                $('#' + id).text('收起评论');
+                $('#' + id).attr("onclick", "hide('" + id + "','" + button_text + "')");
             } else {
 
             }
@@ -45,19 +92,20 @@ function comment(id) {
 
 //　点击收回评论，删除评论内容，显示原来按钮
 function hide(id, button_list) {
-    $('#div_'+id).remove();
+    $('#div_' + id).remove();
+    $('#page' + id).remove();
     // $('#'+id).removeAttr('style');
-    $('#'+id).text(button_list);
-    $('#'+id).attr("onclick","comment(this.id);");
+    $('#' + id).text(button_list);
+    $('#' + id).attr("onclick", "comment(this.id);");
 }
 
 // 点击发送框时删除里面的文字
 function change_input(id) {
     var text_value = $("#text" + id).val();
     console.log(text_value.length);
-    if (text_value.length > 0){
+    if (text_value.length > 0) {
         $("#send" + id).removeAttr('disabled');
-    }else{
+    } else {
         $("#send" + id).attr('disabled', true);
     }
 }
@@ -66,8 +114,8 @@ function change_input(id) {
 function send(id) {
     var text = $('#text' + id).val();
     data_dict = {
-        "id":id,
-        "text":text
+        "id": id,
+        "text": text
     };
     $.ajax({
         // 请求方式
