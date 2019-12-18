@@ -162,7 +162,10 @@ def community(request):
         counts = Comment.objects.filter(comm=str(count_id['id'])).count()
         count_list.append(counts)
     for key, counts in enumerate(count_list):
-        community_object[key]['count'] = counts
+        if counts == 0:
+            community_object[key]['count'] = '添加'
+        else:
+            community_object[key]['count'] = str(counts) + '条'
     return render(request, 'community.html', locals())
 
 # 评论返回数据
