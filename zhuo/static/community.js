@@ -45,7 +45,7 @@ function comment(id, page) {
                     $('#page' + id).remove();
                     $('#div_' + id).remove();
                 }
-                content += '<div id="div_' + id + '" style="background-color: #5cebff">';
+                content += '<div id="div_' + id + '" style="background-color: #e2faff;border: 1px;border-style: dotted;">';
                 for (i = 0; i < result.data.length; i++) {
                     content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
                 }
