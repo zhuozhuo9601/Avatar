@@ -31,25 +31,28 @@ function comment(id, page) {
         // result 为请求的返回结果对象
         success: function (result) {
             if (result.code == '1') {
+                var button_text = $('#' + id).text();
                 // $('#'+id).attr('style', 'display:none');
                 var content = '';
                 var page_content = '';
                 if (result.status == 'no') {
-                    content += '<div id="div_' + id + '" style="background-color: #5cebff">';
-                    for (i = 0; i < result.data.length; i++) {
-                        content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
-                    }
-                    content += '<input id="text' + id + '" class="form-control" style="width: 400px;" onchange="change_input(' + id + ')" placeholder="写下你的评论...">';
-                    // content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
-                    content += '<button class="btn btn-warning" onclick="send(' + id + ')" disabled id="send' + id + '">发送</button>';
-                    content += '</div>';
-
+                    $('#' + id).text('收起评论');
+                    $('#' + id).attr("onclick", "hide('" + id + "','" + button_text + "')");
                 } else {
-                    for (i = 0; i < result.data.length; i++) {
-                        $("#h_" + id + "_" + i).text(result.data[i]['username'] + ':' + result.data[i]['comment']);
-                    }
+                    // for (i = 0; i < result.data.length; i++) {
+                    //     $("#h_" + id + "_" + i).text(result.data[i]['username'] + ':' + result.data[i]['comment']);
+                    // }
                     $('#page' + id).remove();
+                    $('#div_' + id).remove();
                 }
+                content += '<div id="div_' + id + '" style="background-color: #5cebff">';
+                for (i = 0; i < result.data.length; i++) {
+                    content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
+                }
+                content += '<input id="text' + id + '" class="form-control" style="width: 400px;" onchange="change_input(' + id + ')" placeholder="写下你的评论...">';
+                // content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
+                content += '<button class="btn btn-warning" onclick="send(' + id + ')" disabled id="send' + id + '">发送</button>';
+                content += '</div>';
                 page_content += '<div id="page' + id + '">';
                 page_content += '<ul class="pagination" id="pager">';
                 // {#上一页按钮开始#}
@@ -65,7 +68,12 @@ function comment(id, page) {
                 // {#上一页按钮结束#}
                 // {# 页码开始#}
                 for (i = 0; i < result.page_list.length; i++) {
-                    page_content += '<li><a onclick="comment(' + id + "," + result.page_list[i] + ')">' + result.page_list[i] + '</a></li>';
+                    if (page == result.page_list[i]){
+                        page_content += '<li><a style="color: #ff0009;" onclick="comment(' + id + "," + result.page_list[i] + ')">' + result.page_list[i] + '</a></li>';
+                    }else{
+                        page_content += '<li><a onclick="comment(' + id + "," + result.page_list[i] + ')">' + result.page_list[i] + '</a></li>';
+                    }
+
                 }
                 // {#页码结束#}
                 // {# 下一页按钮开始#}
@@ -80,9 +88,7 @@ function comment(id, page) {
                 page_content += '</div>';
                 $('#th_' + id).append(content);
                 $('#th_' + id).append(page_content);
-                var button_text = $('#' + id).text();
-                $('#' + id).text('收起评论');
-                $('#' + id).attr("onclick", "hide('" + id + "','" + button_text + "')");
+
             } else {
 
             }
