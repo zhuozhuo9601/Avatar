@@ -18,29 +18,38 @@
     <li class="layui-nav-item"><a href="{{ url('texts:user') }}">个人中心</a></li>
     <li class="layui-nav-item"><a href="{{ url('study:study_first') }}">邮箱</a></li>
     <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
-{#    <li class="layui-nav-item">#}
-{#        <a href="javascript:;">解决方案</a>#}
-{#        <dl class="layui-nav-child"> <!-- 二级菜单 -->#}
-{#            <dd><a href="">移动模块</a></dd>#}
-{#            <dd><a href="">后台模版</a></dd>#}
-{#            <dd><a href="">电商平台</a></dd>#}
-{#        </dl>#}
-{#    </li>#}
+    {#    <li class="layui-nav-item">#}
+    {#        <a href="javascript:;">解决方案</a>#}
+    {#        <dl class="layui-nav-child"> <!-- 二级菜单 -->#}
+    {#            <dd><a href="">移动模块</a></dd>#}
+    {#            <dd><a href="">后台模版</a></dd>#}
+    {#            <dd><a href="">电商平台</a></dd>#}
+    {#        </dl>#}
+    {#    </li>#}
 
 </ul>
 <div style="width: 500px;margin-left: 30%">
-<table class="table table-striped">
-    {% if community_object %}
-        {% for data in community_object %}
-            <tr>
-                <th id="th_{{ data.id }}"><h1>{{ data.title }}</h1>
-                    <h4>{{ data.content }}</h4>
-                    <button class="btn btn-info" id="{{ data.id }}" onclick="comment(this.id)">{{ data.count }}评论</button>
-                </th>
-            </tr>
-        {% endfor %}
-    {% endif %}
-</table>
+    <table class="table table-striped">
+        {% if community_object %}
+            {% for data in community_object %}
+                <tr>
+                    <th id="th_{{ data.id }}"><h1>{{ data.title }}</h1>
+                        <h4>{{ data.content }}</h4>
+                        <div>
+                            <button class="btn btn-info" id="{{ data.id }}" onclick="comment(this.id)">{{ data.count }}评论</button>
+                            {% if data.like_stats %}
+                                <button class="btn btn-success" id="like{{ data.id }}" onclick="like_method(this.id)"
+                                        disabled>{{ data.like }}</button>
+                            {% else %}
+                                <button class="btn btn-success" id="like{{ data.id }}"
+                                        onclick="like_method(this.id)">{{ data.like }}</button>
+                            {% endif %}
+                        </div>
+                    </th>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
 </div>
 <script>
     layui.use('element', function () {

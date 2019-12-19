@@ -45,7 +45,7 @@ function comment(id, page) {
                     $('#page' + id).remove();
                     $('#div_' + id).remove();
                 }
-                content += '<div id="div_' + id + '" style="background-color: #e2faff;border: 1px;border-style: dotted;">';
+                content += '<div id="div_' + id + '" style="background-color: #d5ffd1;border: 1px;border-style: dotted;">';
                 for (i = 0; i < result.data.length; i++) {
                     content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
                 }
@@ -108,7 +108,6 @@ function hide(id, button_list) {
 // 点击发送框时删除里面的文字
 function change_input(id) {
     var text_value = $("#text" + id).val();
-    console.log(text_value.length);
     if (text_value.length > 0) {
         $("#send" + id).removeAttr('disabled');
     } else {
@@ -123,6 +122,8 @@ function send(id) {
         "id": id,
         "text": text
     };
+    $('#text' + id).val('');
+    $("#send" + id).attr('disabled', 'disabled');
     $.ajax({
         // 请求方式
         type: "post",
@@ -140,6 +141,32 @@ function send(id) {
                 toastr.success(result.msg);
             } else {
                 toastr.error(result.msg);
+            }
+        }
+    });
+}
+
+// 用户点赞
+function like_method(id) {
+    com_id = id.split('like')[1];
+    $.ajax({
+        // 请求方式
+        type: "post",
+        // contentType
+        contentType: "application/json",
+        // dataType
+        dataType: "json",
+        // url
+        url: /comm_like/,
+        // 把JS的对象或数组序列化一个json 字符串
+        data: JSON.stringify(com_id),
+        // result 为请求的返回结果对象
+        success: function (result) {
+            if (result.code == '1') {
+                $("#"+id).text(result.like);
+
+            } else {
+                toastr.error(result.like);
             }
         }
     });

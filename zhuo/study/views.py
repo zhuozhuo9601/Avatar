@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 
 # Create your views here.
-from study.models import Community, Comment
+from study.models import Community, Comment, UserLike
 from text.base import user_login
 from text.models import User
 from zhuo import settings
@@ -73,6 +73,7 @@ def study_json(request):
     print(json_data)
     return http.HttpResponse('测试前端发送json数据接收')
 
+
 # 忘记密码跳转页面
 def forget(request):
     return render(request, 'forget.html', locals())
@@ -85,7 +86,7 @@ def forget_email(request):
     :param request:
     :return:
     """
-    response_dict = {'code':'','message':''}
+    response_dict = {'code': '', 'message': ''}
     try:
         email_dict = json.loads(request.body.decode())
         # 发件人
@@ -127,14 +128,16 @@ def forget_email(request):
         response_dict['message'] = '邮件发送失败'
         return http.HttpResponse(json.dumps(response_dict))
 
+
 # 修改密码页面
 def forget_password(request):
     return render(request, 'forget_password.html')
 
+
 # 修改密码更新密码
 def forget_modify(request):
     modify_dict = json.loads(request.body.decode())
-    response_dict = {'code':'','message':''}
+    response_dict = {'code': '', 'message': ''}
     if modify_dict:
         try:
             username = modify_dict.get('username')
@@ -154,19 +157,33 @@ def forget_modify(request):
         response_dict['message'] = '修改密码失败'
         return http.HttpResponse(json.dumps(response_dict))
 
+
 # 进入社区页面
 def community(request):
-    community_object = Community.objects.all().values('id', 'user', 'title', 'content')
-    count_list = []
-    for count_id in community_object:
-        counts = Comment.objects.filter(comm=str(count_id['id'])).count()
-        count_list.append(counts)
-    for key, counts in enumerate(count_list):
-        if counts == 0:
-            community_object[key]['count'] = '添加'
-        else:
-            community_object[key]['count'] = str(counts) + '条'
-    return render(request, 'community.html', locals())
+    username = request.user
+    try:
+        user = User.objects.get(username=username)
+        community_object = Community.objects.all().values('id', 'user', 'title', 'content', 'like')
+        for key, count_id in enumerate(community_object):
+            counts = Comment.objects.filter(comm=str(count_id['id'])).count()
+            community = Community.objects.get(id=count_id['id'])
+            user_like = UserLike.objects.filter(user=user, community=community).values('like_status')
+            if counts == 0:
+                community_object[key]['count'] = '添加'
+            else:
+                community_object[key]['count'] = str(counts) + '条'
+            if count_id['like'] == 0:
+                community_object[key]['like'] = '赞同'
+            else:
+                if user_like[0]['like_status'] == '0':
+                    community_object[key]['like'] = '赞同' + str(count_id['like'])
+                else:
+                    community_object[key]['like_stats'] = '这个赞同过了'
+                    community_object[key]['like'] = '已赞同' + str(count_id['like'])
+        return render(request, 'community.html', locals())
+    except Exception as e:
+        return http.HttpResponse('出现错误了')
+
 
 # 评论返回数据
 def comment(request):
@@ -233,7 +250,7 @@ def comm_store(request):
     if data_dict:
         try:
             c_object = Community.objects.get(id=data_dict['id'])
-            Comment.objects.create(comm=c_object,com_user=c_object.user,comment=data_dict['text'])
+            Comment.objects.create(comm=c_object, com_user=c_object.user, comment=data_dict['text'])
         except Exception as e:
             json_dict['code'] = '0'
             json_dict['msg'] = '填写评论出错，请重试'
@@ -242,3 +259,31 @@ def comm_store(request):
         json_dict['code'] = '0'
         json_dict['msg'] = '请填写评论'
         return http.HttpResponse(json.dumps(json_dict))
+
+
+# 用户点赞
+def comm_like(request):
+    id = json.loads(request.body.decode())
+    like_dict = {'code':'1'}
+    if id:
+        try:
+            user_like = UserLike.objects.get(id=id)
+            community = user_like.community
+
+            if user_like.like_status == '0':
+                like_dict['like'] = '已赞同' + str(community.like+1)
+                user_like.like_status = '1'
+                user_like.save()
+                community.like = community.like + 1
+                community.save()
+            else:
+                like_dict['like'] = '已赞同' + str(community.like)
+            return http.HttpResponse(json.dumps(like_dict))
+        except Exception as e:
+            like_dict['code'] = '0'
+            like_dict['like'] = '文章点赞出错了'
+            return http.HttpResponse(json.dumps(like_dict))
+    else:
+        like_dict['code'] = '0'
+        like_dict['like'] = '请选择一个文章点赞'
+        return http.HttpResponse(json.dumps(like_dict))
