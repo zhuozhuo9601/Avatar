@@ -164,6 +164,11 @@ function like_method(id) {
         success: function (result) {
             if (result.code == '1') {
                 $("#"+id).text(result.like);
+                if (result.like_status){
+                    $("#"+id).attr('class', 'btn btn-success');
+                }else{
+                    $("#"+id).attr('class', 'btn btn-warning');
+                }
 
             } else {
                 toastr.error(result.like);

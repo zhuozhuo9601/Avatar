@@ -159,6 +159,7 @@ def forget_modify(request):
 
 
 # 进入社区页面
+@user_login
 def community(request):
     username = request.user
     try:
@@ -167,7 +168,7 @@ def community(request):
         for key, count_id in enumerate(community_object):
             counts = Comment.objects.filter(comm=str(count_id['id'])).count()
             community = Community.objects.get(id=count_id['id'])
-            user_like = UserLike.objects.filter(user=user, community=community).values('like_status')
+            user_like = UserLike.objects.filter(user=user, community=community).values('like_status').first()
             if counts == 0:
                 community_object[key]['count'] = '添加'
             else:
@@ -175,17 +176,18 @@ def community(request):
             if count_id['like'] == 0:
                 community_object[key]['like'] = '赞同'
             else:
-                if user_like[0]['like_status'] == '0':
+                if user_like['like_status'] == '0':
                     community_object[key]['like'] = '赞同' + str(count_id['like'])
                 else:
-                    community_object[key]['like_stats'] = '这个赞同过了'
+                    community_object[key]['like_status'] = '这个赞同过了'
                     community_object[key]['like'] = '已赞同' + str(count_id['like'])
         return render(request, 'community.html', locals())
     except Exception as e:
-        return http.HttpResponse('出现错误了')
+        return render(request, 'error_404_500.html')
 
 
 # 评论返回数据
+@user_login
 def comment(request):
     """
     :param current_page: 用户请求的当前页
@@ -244,6 +246,7 @@ def comment(request):
 
 
 # 储存用户写的评论
+@user_login
 def comm_store(request):
     data_dict = json.loads(request.body.decode())
     json_dict = {'code': '1', 'msg': '成功'}
@@ -262,22 +265,30 @@ def comm_store(request):
 
 
 # 用户点赞
+@user_login
 def comm_like(request):
     id = json.loads(request.body.decode())
-    like_dict = {'code':'1'}
+    like_dict = {'code': '1'}
     if id:
         try:
             user_like = UserLike.objects.get(id=id)
             community = user_like.community
-
             if user_like.like_status == '0':
-                like_dict['like'] = '已赞同' + str(community.like+1)
+                like_dict['like_status'] = '这个已经赞同过了'
+                like_dict['like'] = '已赞同' + str(community.like + 1)
                 user_like.like_status = '1'
                 user_like.save()
                 community.like = community.like + 1
                 community.save()
             else:
-                like_dict['like'] = '已赞同' + str(community.like)
+                if community.like - 1 == 0:
+                    like_dict['like'] = '赞同'
+                else:
+                    like_dict['like'] = '赞同' + str(community.like - 1)
+                user_like.like_status = '0'
+                user_like.save()
+                community.like = community.like - 1
+                community.save()
             return http.HttpResponse(json.dumps(like_dict))
         except Exception as e:
             like_dict['code'] = '0'
@@ -287,3 +298,9 @@ def comm_like(request):
         like_dict['code'] = '0'
         like_dict['like'] = '请选择一个文章点赞'
         return http.HttpResponse(json.dumps(like_dict))
+
+
+# 这是如果出现404或者500的错误返回一个错误的页面
+@user_login
+def error_404(request):
+    return render(request, 'error_404_500.html')

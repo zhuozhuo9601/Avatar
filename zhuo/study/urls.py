@@ -16,5 +16,6 @@ urlpatterns = [
     # url(r'^comment/(?P<page>\d+)/(?P<ids>\d+)/$', views.comment,name='comment'),
     url(r'^comm_store/$', views.comm_store,name='comm_store'),
     url(r'^comm_like/$', views.comm_like,name='comm_like'),
+    url(r'^error_404/$', views.error_404,name='error_404'),
     # url(r'^study_first/(?P<id>\d+)/$', views.study_first,name='study_first'),
 ]
