@@ -170,3 +170,6 @@ youxiangmima = 'zhuozhuo9601'
 
 # celery异步
 BROKER_URL = 'redis://:django_redis@localhost:6379/2'
+
+# 登陆访问限制必须登陆状态,配置 LOGIN_URL 参数
+LOGIN_URL = '/login/'

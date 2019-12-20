@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from django import http
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
 from django.shortcuts import render
@@ -159,7 +160,7 @@ def forget_modify(request):
 
 
 # 进入社区页面
-@user_login
+@login_required
 def community(request):
     username = request.user
     try:
