@@ -72,3 +72,23 @@ function city_Linkage() {
     alert('选中了');
     console.log('sadsadada');
 }
+
+// 检查账号密码格式是否正确
+function examination(id, status) {
+    var reg_name = /(^[a-zA-Z][a-zA-Z0-9_]{4,15}$)/;
+    var reg_word = /(^[0-9A-Za-z]{6,20}$)/;
+    var reg_phone = /(^1[3-9]\d{9}$)/;
+    if (status == 'name') {
+        if (reg_name.test($("#" + id).val()) == false) {
+            $("#username_error").removeAttr('hidden');
+        }
+    } else if (status == 'word') {
+        if (reg_word.test($("#" + id).val()) == false) {
+            $("#password_error").removeAttr('hidden');
+        }
+    } else {
+        if (reg_phone.test($("#" + id).val()) == false) {
+            $("#phone_error").removeAttr('hidden');
+        }
+    }
+}
