@@ -9,7 +9,7 @@ from system.storage import ImageStorage
 class User(AbstractUser):
     """自定义用户模型类"""
     mobile = models.CharField(max_length=11, unique=True, verbose_name='手机号')
-    year = models.CharField(max_length=11,null=True)
+    year = models.CharField(max_length=11,null=True, verbose_name='年龄')
     class Meta:
         db_table = 'tb_users'
         verbose_name = '用户'
@@ -21,10 +21,10 @@ class User(AbstractUser):
 
 class Image(models.Model):
     """图片上传模型类"""
-    ima_name = models.ForeignKey(User,max_length=20,null=True)
-    img_url = models.ImageField(upload_to='static/userimages',storage=ImageStorage())  # upload_to指定图片上传的途径，如果不存在则自动创建
-    content_one = models.CharField(max_length=200, blank=True)
-    content_two = models.CharField(max_length=200, blank=True)
+    ima_name = models.ForeignKey(User,max_length=20,null=True, verbose_name='图片对应的用户')
+    img_url = models.ImageField(upload_to='static/userimages',storage=ImageStorage(), verbose_name='上传的图片')  # upload_to指定图片上传的途径，如果不存在则自动创建
+    content_one = models.CharField(max_length=200, blank=True, verbose_name='信息1')
+    content_two = models.CharField(max_length=200, blank=True, verbose_name='信息2')
 
     class Meta:
         db_table = 'tb_image'
@@ -32,10 +32,10 @@ class Image(models.Model):
 
 class ImageDetails(models.Model):
     """图片详情模型类"""
-    details_id = models.ForeignKey("Image", to_field="id", null=True, on_delete=models.CASCADE)
-    images = models.ImageField(upload_to='static/userimages')
-    details_one = models.CharField(max_length=200, blank=True)
-    details_two = models.CharField(max_length=200, blank=True)
+    details_id = models.ForeignKey("Image", to_field="id", null=True, on_delete=models.CASCADE, verbose_name='对应的图片')
+    images = models.ImageField(upload_to='static/userimages', verbose_name='图片路径')
+    details_one = models.CharField(max_length=200, blank=True, verbose_name='信息1')
+    details_two = models.CharField(max_length=200, blank=True, verbose_name='信息2')
 
     class Meta:
         db_table = 'tb_details'
