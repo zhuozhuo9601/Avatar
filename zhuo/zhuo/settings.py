@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'zhuo.urls'
 
+# 增加admin站点管理和DRF框架的时候需要使用django模板
 # TEMPLATES = [
 #     {
 #         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -85,6 +86,7 @@ ROOT_URLCONF = 'zhuo.urls'
 #         },
 #     },
 # ]
+# 使用vue的时候使用jinja
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',#修改1
