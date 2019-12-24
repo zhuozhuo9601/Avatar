@@ -1,3 +1,4 @@
+import base64
 import json
 import smtplib
 from email.header import Header
@@ -6,6 +7,7 @@ from email.mime.text import MIMEText
 
 from django import http
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 
 from django.shortcuts import render
@@ -113,7 +115,13 @@ def forget_email(request):
         message['Subject'] = Header(mail_title, 'utf-8')
 
         # 邮件正文内容
-        content = 'http://127.0.0.1:8001/login/'
+        # 编码： 字符串 -> 二进制 -> base64编码
+        # b64_name = base64.b64encode(account.encode())
+        # b'546L5aSn6ZSk'
+        # 解码：base64编码 -> 二进制 -> 字符串
+        # print(base64.b64decode(b64_name).decode())
+
+        content = 'http://127.0.0.1:8001/forget_password/'+account
         message.attach(MIMEText(content, 'plain', 'utf-8'))
 
         smtpObj = smtplib.SMTP()  # 注意：如果遇到发送失败的情况（提示远程主机拒接连接），这里要使用SMTP_SSL方法
@@ -125,18 +133,51 @@ def forget_email(request):
         response_dict['message'] = '邮件发送成功'
         return http.HttpResponse(json.dumps(response_dict))
     except Exception as e:
-        response_dict['code'] = '５00'
+        response_dict['code'] = '500'
         response_dict['message'] = '邮件发送失败'
         return http.HttpResponse(json.dumps(response_dict))
 
 
+# 忘记密码进入页面
+def forget_password(request, name):
+    if name:
+        return render(request, 'forget_password.html')
+
+
+# 忘记密码输入密码页面
+def set_password(request):
+    json_dict = json.loads(request.body.decode())
+    password1 = json_dict['password1']
+    password2 = json_dict['password2']
+    name = json_dict['name']
+    # username = base64.b64decode(name).decode()
+    response_dict = {'code': '', 'message': ''}
+    if password1 == password2:
+        try:
+            user = User.objects.get(username=name)
+            # 调用方法修改密码
+            user.password = make_password(password1)
+            user.save()
+            response_dict['code'] = '200'
+            response_dict['message'] = '重置密码成功'
+        except Exception as e:
+            response_dict['code'] = '500'
+            response_dict['message'] = '没有这个用户'
+            return http.HttpResponse(json.dumps(response_dict))
+        return http.HttpResponse(json.dumps(response_dict))
+    else:
+        response_dict['code'] = '500'
+        response_dict['message'] = '两次密码不正确'
+        return http.HttpResponse(json.dumps(response_dict))
+
+
 # 修改密码页面
-def forget_password(request):
-    return render(request, 'forget_password.html')
+def modify_password(request):
+    return render(request, 'modify.html')
 
 
 # 修改密码更新密码
-def forget_modify(request):
+def update_password(request):
     modify_dict = json.loads(request.body.decode())
     response_dict = {'code': '', 'message': ''}
     if modify_dict:

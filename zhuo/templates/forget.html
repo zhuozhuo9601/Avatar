@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="../static/jquery.js"></script>
+    <script src="/static/jquery.js"></script>
     <script src="../static/layui/layui.js"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/css/toastr.min.css">
+    <link rel="stylesheet" href="../static/css/toastr.css">
     <script src="../static/js/bootstrap.js"></script>
     <script src="../static/js/toastr.min.js"></script>
 </head>
 <body>
-<div style="margin-left: 35%">
+<div style="margin-left: 35%" id="send_id">
     <h1>忘记密码页面</h1>
     <div class="input-group" style="width: 400px;">
         <span class="input-group-addon" id="basic-addon1">输入注册时的邮箱：</span>
@@ -23,6 +23,10 @@
         <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username">
     </div>
     <button class="btn btn-sm btn-success" style="margin-left: 20%;margin-top: 20px;" onclick="forget()">提交</button>
+</div>
+<div id="email_id" hidden>
+    <h1>邮件发送成功,请去注册邮箱查看邮件完成后续操作</h1>
+    <span>返回登陆页面!</span><a href="{{ url('texts:login') }}">点击我</a>
 </div>
 <script>
     function forget() {
@@ -47,6 +51,8 @@
             success: function (data) {
                 if (data.code == '200') {
                     toastr.success(data.message);
+                    $("#send_id").attr('hidden', 'hidden');
+                    $("#email_id").removeAttr('hidden');
                 } else {
                     toastr.error(data.message);
                 }

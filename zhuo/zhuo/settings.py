@@ -145,12 +145,20 @@ CACHES = {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
                 "PASSWORD": "django_redis"
             }
-        }
+        },
     # 设置多个缓存数据表
 #     'mysite':{
 #         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
 #         'LOCATION':'mysite_text_city',
 # }
+    # 忘记密码返回邮箱
+    "email_code": {
+           "BACKEND": "django_redis.cache.RedisCache",
+           "LOCATION": "redis://127.0.0.1:6379/2",
+           "OPTIONS": {
+               "CLIENT_CLASS": "django_redis.client.DefaultClient",
+           }
+       },
 }
 
 LANGUAGE_CODE = 'zh-hans'

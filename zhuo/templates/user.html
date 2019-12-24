@@ -29,6 +29,7 @@
     <h1>你好，{{ details_username }}</h1>
     <button class="btn btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-left: 4%">完善个人资料
     </button>
+    <button class="btn btn-danger" style="float: right;"><a href="{{ url('study:modify_password') }}" style="text-decoration: none;color: #232232;">修改密码</a></button>
 </div>
 {% if user_admin %}
     <form action="/image/" method="POST" enctype="multipart/form-data">
@@ -37,7 +38,7 @@
     </form>
 
 {% endif %}
-</div>
+
 <div style="margin-left: 5%">
     {% if img %}
         {% for data in img %}
