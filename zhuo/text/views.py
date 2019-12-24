@@ -121,14 +121,19 @@ class UserView(View):
 
     def get(self, request):
         username = request.user.username
+        user = request.user
         if username:
-            if username == 'lizhuo01':
+            # 验证用户是否拥有这个权限
+            if user.has_perm('text.file_upload'):
                 user_admin = 'lizhuo01'
             user_data = User.objects.get(username=username)
             # 增加用户权限
-            # permiss = Permission.objects.get(id=1)
+            # permiss = Permission.objects.get(id=46)
+            # user_permissions:Permission类多对多的关系对象管理器
             # user_data.user_permissions.add(permiss)
+            # get_all_permissions(obj=None): 返回该用户拥有的所有权限
             # user_per = user_data.get_all_permissions()
+            # user_data.save()
             province = UserCity.objects.filter(mark_id=1).values_list('id', 'city')
             img = Image.objects.filter(ima_name=user_data.id).values('id', 'img_url', 'content_one', 'content_two')
             details = UserDetails.objects.filter(user_id__username=username).values('username', 'sex', 'city',
