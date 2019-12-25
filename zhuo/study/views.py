@@ -121,7 +121,7 @@ def forget_email(request):
         # 解码：base64编码 -> 二进制 -> 字符串
         # print(base64.b64decode(b64_name).decode())
 
-        content = 'http://127.0.0.1:8001/forget_password/'+account
+        content = 'http://127.0.0.1:8001/forget_password/' + account
         message.attach(MIMEText(content, 'plain', 'utf-8'))
 
         smtpObj = smtplib.SMTP()  # 注意：如果遇到发送失败的情况（提示远程主机拒接连接），这里要使用SMTP_SSL方法
@@ -224,6 +224,8 @@ def community(request):
                     else:
                         community_object[key]['like_status'] = '这个赞同过了'
                         community_object[key]['like'] = '已赞同' + str(count_id['like'])
+                else:
+                    community_object[key]['like'] = '赞同' + str(count_id['like'])
         return render(request, 'community.html', locals())
     except Exception as e:
         return render(request, 'error_404_500.html')
@@ -312,26 +314,37 @@ def comm_store(request):
 def comm_like(request):
     id = json.loads(request.body.decode())
     like_dict = {'code': '1'}
+    user = request.user
     if id:
         try:
-            user_like = UserLike.objects.get(id=id)
-            community = user_like.community
-            if user_like.like_status == '0':
-                like_dict['like_status'] = '这个已经赞同过了'
-                like_dict['like'] = '已赞同' + str(community.like + 1)
-                user_like.like_status = '1'
-                user_like.save()
-                community.like = community.like + 1
-                community.save()
+            comm_object = Community.objects.get(id=id)
+            user_like = UserLike.objects.filter(community__id=id, user__username=user)
+            if user_like:
+                for likes in user_like:
+                    community = likes.community
+                    if likes.like_status == '0':
+                        like_dict['like_status'] = '这个已经赞同过了'
+                        like_dict['like'] = '已赞同' + str(community.like + 1)
+                        likes.like_status = '1'
+                        likes.save()
+                        community.like = community.like + 1
+                        community.save()
+                    else:
+                        if community.like - 1 == 0:
+                            like_dict['like'] = '赞同'
+                        else:
+                            like_dict['like'] = '赞同' + str(community.like - 1)
+                        likes.like_status = '0'
+                        likes.save()
+                        community.like = community.like - 1
+                        community.save()
             else:
-                if community.like - 1 == 0:
-                    like_dict['like'] = '赞同'
-                else:
-                    like_dict['like'] = '赞同' + str(community.like - 1)
-                user_like.like_status = '0'
-                user_like.save()
-                community.like = community.like - 1
-                community.save()
+                like_dict['like_status'] = '这个已经赞同过了'
+                like_dict['like'] = '已赞同' + str(comm_object.like + 1)
+                UserLike.objects.create(user=user, community=comm_object, like_status='1')
+                comm_object.like = comm_object.like + 1
+                comm_object.save()
+
             return http.HttpResponse(json.dumps(like_dict))
         except Exception as e:
             like_dict['code'] = '0'

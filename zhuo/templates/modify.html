@@ -32,7 +32,9 @@
             <span style="color: #ff0009;" id="hidden_span" hidden>两次密码不一致</span>
         </div>
         <button class="btn btn-sm btn-success" hidden id="hidden_button" disabled onclick="modify()">提交</button>
+        <button class="btn btn-info btn-sm"><a href="{{ url('texts:index') }}">返回首页</a></button>
     </div>
+
 </div>
 <script>
     function fous() {
@@ -53,9 +55,9 @@
         var password1 = $("#password1").val();
         var password2 = $("#password2").val();
         modify_dict = {
-            "username":username,
-            "password1":password1,
-            "password2":password2
+            "username": username,
+            "password1": password1,
+            "password2": password2
         };
         $.ajax({
             // 请求方式
@@ -72,7 +74,7 @@
             success: function (data) {
                 if (data.code == '200') {
                     toastr.success(data.message);
-                    window.location.href='/login/';
+                    window.location.href = '/login/';
                 } else {
                     toastr.error(data.message);
                 }
