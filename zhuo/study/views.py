@@ -218,11 +218,12 @@ def community(request):
             if count_id['like'] == 0:
                 community_object[key]['like'] = '赞同'
             else:
-                if user_like['like_status'] == '0':
-                    community_object[key]['like'] = '赞同' + str(count_id['like'])
-                else:
-                    community_object[key]['like_status'] = '这个赞同过了'
-                    community_object[key]['like'] = '已赞同' + str(count_id['like'])
+                if user_like:
+                    if user_like['like_status'] == '0':
+                        community_object[key]['like'] = '赞同' + str(count_id['like'])
+                    else:
+                        community_object[key]['like_status'] = '这个赞同过了'
+                        community_object[key]['like'] = '已赞同' + str(count_id['like'])
         return render(request, 'community.html', locals())
     except Exception as e:
         return render(request, 'error_404_500.html')

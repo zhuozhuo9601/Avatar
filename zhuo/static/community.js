@@ -49,7 +49,7 @@ function comment(id, page) {
                 for (i = 0; i < result.data.length; i++) {
                     content += '<h5 id="h_' + id + "_" + i + '">' + result.data[i]['username'] + ':' + result.data[i]['comment'] + '</h5>';
                 }
-                content += '<input id="text' + id + '" class="form-control" style="width: 400px;" onchange="change_input(' + id + ')" placeholder="写下你的评论...">';
+                content += '<input id="text' + id + '" class="form-control" style="width: 400px;" oninput="change_input(' + id + ')" placeholder="写下你的评论...">';
                 // content += '<button class="btn btn-danger" onclick="hide('+id+')">收起评论</button>';
                 content += '<button class="btn btn-warning" onclick="send(' + id + ')" disabled id="send' + id + '">发送</button>';
                 content += '</div>';
