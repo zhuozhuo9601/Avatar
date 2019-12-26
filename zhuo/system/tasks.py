@@ -1,7 +1,8 @@
-from celery import Celery
+from system.celerys import app
 
-app = Celery('tasks', backend='redis://:django_redis@localhost:6379/2', broker='redis://:django_redis@localhost:6379/2')
 
 @app.task
-def add(x, y):
-   return x + y
+def celery_value(a, b):
+    c = a + b
+
+    return c

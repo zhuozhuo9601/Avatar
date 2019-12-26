@@ -14,6 +14,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from study.models import Community, Comment, UserLike
+from system.tasks import celery_value
 from text.base import user_login
 from text.models import User
 from zhuo import settings
@@ -79,6 +80,9 @@ def study_json(request):
 
 # 忘记密码跳转页面
 def forget(request):
+    # 在虚拟机测试可以打开，服务器不打开，用来测试celery异步任务的
+    # c = celery_value.delay(1,3)
+    # print(c)
     return render(request, 'forget.html', locals())
 
 
