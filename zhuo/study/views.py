@@ -1,5 +1,7 @@
 import base64
 import json
+import os
+import re
 import smtplib
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
@@ -364,3 +366,102 @@ def comm_like(request):
 @user_login
 def error_404(request):
     return render(request, 'error_404_500.html')
+
+
+# 循环文件夹下面目录并且替换内容
+def replace_error(request):
+    dirname = '/data/ceshi_hops/'
+    try:
+        for maindir, subdir, file_name_list in os.walk(dirname):
+            if file_name_list:
+                for f in file_name_list:
+                    apath = os.path.join(maindir, f)
+                    if '.py' in f and '.pyc' not in f:
+                        with open(apath, 'r') as r:
+                            r_value = r.readlines()
+                            r.close()
+                        with open(apath, 'w') as w:
+                            for line in r_value:
+                                if 'except Exception,e' in line or 'except Exception,e\n' in line:
+                                    a = re.sub('except Exception,e', 'except Exception as e', line)
+                                elif 'except Exception, e\n' in line or 'except Exception, e' in line:
+                                    a = re.sub('except Exception, e', 'except Exception as e', line)
+                                elif 'urllib2' in line or 'urllib2\n' in line:
+                                    a = re.sub('urllib2', 'urllib.request', line)
+                                elif 'import sys' in line or 'import sys\n' in line:
+                                    a = re.sub('import sys', 'import importlib,sys', line)
+                                elif 'reload(sys)' in line or 'reload(sys)\n' in line:
+                                    a = 'importlib.reload(sys)\n'
+                                elif "sys.setdefaultencoding('utf-8')" in line or "sys.setdefaultencoding('utf-8')\n" in line or 'sys.setdefaultencoding("utf-8")\n' in line or "sys.setdefaultencoding('utf8')\n" in line:
+                                    a = '\n'
+                                elif 'has_key' in line or 'has_key\n' in line:
+                                    has_list = line.split('.has_key')
+                                    if_result = has_list[0].split('if')
+                                    right_value = has_list[1].split('(')[1].split(')')[0]
+                                    if 'not' in has_list[0] or 'not\n' in has_list[0]:
+                                        value = if_result[0] + 'if ' + right_value + ' not in' + \
+                                                if_result[1].split('not')[1] + ':'
+                                    elif 'and' in has_list[0] or 'and\n' in has_list[0]:
+                                        left_value = has_list[0].split('and')[1]
+                                        value = has_list[0].split('and')[
+                                                    0] + 'and ' + right_value + ' in' + left_value + ":"
+                                    else:
+                                        value = if_result[0] + 'if ' + right_value + ' in' + if_result[1] + ':'
+                                    a = value + '\n'
+                                elif 'print ' in line or 'print \n' in line:
+                                    print_value = line.split('print ')[1]
+                                    print_result = line.split('print ')[0] + 'print(' + print_value.split('\n')[0] + ')'
+                                    a = print_result + '\n'
+                                else:
+                                    a = line
+                                w.write(a)
+                            w.close()
+    except Exception as e:
+        print(e)
+        return http.HttpResponse('文件读取出错,请检查')
+    return http.HttpResponse('成功')
+
+
+# 专门测试单独一个文件的读写操作
+def alone_dir(request):
+    apath = '//data/ceshi_hops/hops/hoolai/hoolai/turnover/views12.py'
+    with open(apath, 'r') as r:
+        r_value = r.readlines()
+        r.close()
+    with open(apath, 'w') as w:
+        for line in r_value:
+            if 'except Exception,e' in line or 'except Exception,e\n' in line:
+                a = re.sub('except Exception,e', 'except Exception as e', line)
+            elif 'except Exception, e\n' in line or 'except Exception, e' in line:
+                a = re.sub('except Exception, e', 'except Exception as e', line)
+            elif 'urllib2' in line or 'urllib2\n' in line:
+                a = re.sub('urllib2', 'urllib.request', line)
+            elif 'import sys' in line or 'import sys\n' in line:
+                a = re.sub('import sys', 'import importlib,sys', line)
+            elif 'reload(sys)' in line or 'reload(sys)\n' in line:
+                a = 'importlib.reload(sys)\n'
+            elif "sys.setdefaultencoding('utf-8')" in line or "sys.setdefaultencoding('utf-8')\n" in line or 'sys.setdefaultencoding("utf-8")\n' in line or "sys.setdefaultencoding('utf8')\n" in line:
+                a = '\n'
+            elif 'has_key' in line or 'has_key\n' in line:
+                has_list = line.split('.has_key')
+                if_result = has_list[0].split('if')
+                right_value = has_list[1].split('(')[1].split(')')[0]
+                if 'not' in has_list[0] or 'not\n' in has_list[0]:
+                    value = if_result[0] + 'if ' + right_value + ' not in' + \
+                            if_result[1].split('not')[1] + ':'
+                elif 'and' in has_list[0] or 'and\n' in has_list[0]:
+                    left_value = has_list[0].split('and')[1]
+                    value = has_list[0].split('and')[
+                                0] + 'and ' + right_value + ' in' + left_value + ":"
+                else:
+                    value = if_result[0] + 'if ' + right_value + ' in' + if_result[1] + ':'
+                a = value + '\n'
+            elif 'print ' in line or 'print \n' in line:
+                print_value = line.split('print ')[1]
+                print_result = line.split('print ')[0] + 'print(' + print_value.split('\n')[0] + ')'
+                a = print_result + '\n'
+            else:
+                a = line
+            w.write(a)
+        w.close()
+    return http.HttpResponse('成功')
