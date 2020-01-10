@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^error_404/$', views.error_404,name='error_404'),
     url(r'^replace_error/$', views.replace_error,name='replace_error'),
     url(r'^alone_dir/$', views.alone_dir,name='alone_dir'),
+    url(r'^excel_input/$', views.excel_input,name='excel_input'),
+    url(r'^excel_download/$', views.excel_download,name='excel_download'),
     # url(r'^study_first/(?P<id>\d+)/$', views.study_first,name='study_first'),
 ]

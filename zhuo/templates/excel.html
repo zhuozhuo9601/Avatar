@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/bootstrap.css">
+</head>
+<body>
+<table class="table-bordered">
+    <thead>
+    <tr>
+        {% for r in rows_list %}
+            <th style="text-align: center">{{ r }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for data in excel_list %}
+        <tr>
+            {% for i in num_list %}
+                <td style="text-align: center;">{{ data[i] }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="/excel_download/">下载excel测试</a>
+</body>
+</html>

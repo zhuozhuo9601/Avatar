@@ -7,10 +7,14 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import xlrd
+import xlwt
 from django import http
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 
 from django.shortcuts import render
 
@@ -465,3 +469,76 @@ def alone_dir(request):
             w.write(a)
         w.close()
     return http.HttpResponse('成功')
+
+@user_login
+def excel_input(request):
+    """
+    根据前端传入的excel文件进行解析
+    并且将解析出来的数据返回页面
+    :param request:
+    :return:
+    """
+    files = request.FILES.get('file')
+    tempFilePath = files.read()
+    excel = xlrd.open_workbook(file_contents=tempFilePath)
+    # excel.sheet_names()  # 获取excel里的工作表sheet名称数组
+    sheet = excel.sheet_by_index(0)  # 根据下标获取对应的sheet表
+
+    # sheet.row_values(0)  # 获取第一行的数据
+    # sheet.col_values(0)  # 获取第一列的数据
+    nrows = sheet.nrows  # 获取总共的行数
+    ncols = sheet.ncols  # 获取总共的列数
+
+    excel_list = []
+    for i in range(nrows):
+        nrows_dict = {}
+        # 获取所有行的数据
+        nrow_value = sheet.row_values(i)
+        if i == 0:
+            rows_list = nrow_value
+        else:
+            for j in range(ncols):
+                # 获取每行第几列的数据
+                ncols_value = nrow_value[j]
+                nrows_dict['num' + str(j)] = ncols_value
+            excel_list.append(nrows_dict)
+    num_list = []
+    for n in range(ncols):
+        num_list.append('num' + str(n))
+
+
+    return render(request, 'excel.html', locals())
+
+@login_required()
+def excel_download(request):
+    workbook = xlwt.Workbook(encoding='utf-8')
+    worksheet = workbook.add_sheet('My Worksheet')
+    style = xlwt.XFStyle()  # 初始化样式
+    font = xlwt.Font()  # 为样式创建字体
+    font.name = '宋体'
+    font.bold = True  # 黑体
+    font.underline = True  # 下划线
+    font.italic = True  # 斜体字
+    style.font = font  # 设定样式
+    worksheet.write(0, 0, '4444')  # 不带样式的写入
+    worksheet.write(2, 0, '1111')
+    worksheet.write(3, 0, '2222')
+
+    # worksheet.write(1, 0, '5555', style)  # 带样式的写入
+    file_out = '/data/file.xls'
+    workbook.save(file_out)  # 保存文件
+
+    response = StreamingHttpResponse(file_open(file_out))
+    # 返回页面上显示的excel文字
+    response['Content_Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format('111.xls')
+    return response
+
+def file_open(file_out):
+    with open(file_out) as f:
+        while True:
+            c = f.read(512)
+            if c:
+                yield c
+            else:
+                break
