@@ -141,23 +141,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>填充轮播元素</legend>
-</fieldset>
 
-<div class="layui-carousel" id="test10">
-    <div carousel-item="">
-        <div><img src="../static/images/study1.jpg"></div>
-        <div><img src="../static/images/study2.jpg"></div>
-        <div><img src="../static/images/study3.jpg"></div>
-        <div><img src="../static/images/study4.jpg"></div>
-        <div><img src="../static/images/study5.jpg"></div>
-        <div><img src="../static/images/study6.jpg"></div>
-        <div><img src="../static/images/study7.jpg"></div>
-    </div>
+<div style="width: 800px;height: 50px;background-color: #ebabff">
+    <h1>我只是路过的</h1>
 </div>
-<a href="{{ url('study:study_text') }}">测试是否需要返回response</a>
-<a onclick="study_json()">测试返回json数据</a>
 
 <div class="container-fluid">
     <form id="form" action="/excel_input/" method="post" enctype="multipart/form-data">
@@ -175,6 +162,24 @@
         </div>
     </form>
 </div>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>填充轮播元素</legend>
+</fieldset>
+
+<div class="layui-carousel" id="test10">
+    <div carousel-item="">
+        <div><img src="../static/images/study1.jpg"></div>
+        <div><img src="../static/images/study2.jpg"></div>
+        <div><img src="../static/images/study3.jpg"></div>
+        <div><img src="../static/images/study4.jpg"></div>
+        <div><img src="../static/images/study5.jpg"></div>
+        <div><img src="../static/images/study6.jpg"></div>
+        <div><img src="../static/images/study7.jpg"></div>
+    </div>
+</div>
+<a href="{{ url('study:study_text') }}">测试是否需要返回response</a>
+<a onclick="study_json()">测试返回json数据</a>
 <script>
     $(function () {
         initFileInput("input-id");
