@@ -511,8 +511,10 @@ def excel_input(request):
 
 @login_required()
 def excel_download(request):
+    # 创建一个xlwt对象
     workbook = xlwt.Workbook(encoding='utf-8')
-    worksheet = workbook.add_sheet('My Worksheet')
+    # 创建一个excel的sheet
+    worksheet = workbook.add_sheet('sheet')
     style = xlwt.XFStyle()  # 初始化样式
     font = xlwt.Font()  # 为样式创建字体
     font.name = '宋体'
@@ -523,11 +525,13 @@ def excel_download(request):
     worksheet.write(0, 0, '4444')  # 不带样式的写入
     worksheet.write(2, 0, '1111')
     worksheet.write(3, 0, '2222')
+    worksheet.write(1, 0, '2222')
 
     # worksheet.write(1, 0, '5555', style)  # 带样式的写入
     file_out = '/data/file.xls'
     workbook.save(file_out)  # 保存文件
 
+    # 使用方法返回一个excel文件
     response = StreamingHttpResponse(file_open(file_out))
     # 返回页面上显示的excel文字
     response['Content_Type'] = 'application/octet-stream'
@@ -535,9 +539,9 @@ def excel_download(request):
     return response
 
 def file_open(file_out):
-    with open(file_out) as f:
+    with open(file_out, 'rb') as f:
         while True:
-            c = f.read(512)
+            c = f.read()
             if c:
                 yield c
             else:
