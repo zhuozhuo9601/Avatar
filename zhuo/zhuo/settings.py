@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'study',
     'seriali',
     'rest_framework',
+    'fontend',
 )
 
 MIDDLEWARE_CLASSES = (
