@@ -421,3 +421,20 @@ def UserProvince(request):
                 city_list.append(city_dict)
     city_data = json.dumps(city_list, cls=ComplexEncoder)
     return http.HttpResponse(city_data)
+
+
+# 测试GUI编程用户登陆的方法
+def gui_password(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    response_dict = {}
+    if username and password:
+        user = authenticate(username=username, password=password)
+        if user:
+            response_dict['code'] = '200'
+            response_dict['msg'] = '用户名密码正确'
+            return http.HttpResponse(json.dumps(response_dict))
+        else:
+            response_dict['code'] = '500'
+            response_dict['msg'] = '用户名密码错误'
+            return http.HttpResponse(json.dumps(response_dict))
