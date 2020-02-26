@@ -125,44 +125,59 @@ DATABASES = {
     }
 }
 
-#BACKEND用于配置缓存引擎，LOCATION用于数据表的命名
 CACHES = {
-    # 'default':{
-    #     'BACKEND':'django.core.cache.backends.db.DatabaseCache',
-    #     'LOCATION':'mysite_text_city',
-    #     #设置缓存的生命周期，以秒为单位，若为None，则永不过期
-    #     'TIMEOUT': 60,
-    #     'OPTIONS':{
-    #         #MAX_ENTRIES代表最大缓存记录的数量
-    #         'MAX_ENTRIES': 1000,
-    #         #当缓存到达最大数量之后，设置剔除缓存的数量
-    #         'CULL_FREQUENCY': 3,
-    #     }
-    # },
-
-    # redis库存储缓存
-     "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379/1",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-                "PASSWORD": "django_redis"
-            }
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "django_redis",
         },
-    # 设置多个缓存数据表
-#     'mysite':{
-#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
-#         'LOCATION':'mysite_text_city',
-# }
-    # 忘记密码返回邮箱
-    "email_code": {
-           "BACKEND": "django_redis.cache.RedisCache",
-           "LOCATION": "redis://127.0.0.1:6379/2",
-           "OPTIONS": {
-               "CLIENT_CLASS": "django_redis.client.DefaultClient",
-           }
-       },
+    },
 }
+
+REDIS_TIMEOUT = 7 * 24 * 60 * 60
+CUBES_REDIS_TIMEOUT = 60 * 60
+NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
+
+#BACKEND用于配置缓存引擎，LOCATION用于数据表的命名
+# CACHES = {
+#     # 'default':{
+#     #     'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+#     #     'LOCATION':'mysite_text_city',
+#     #     #设置缓存的生命周期，以秒为单位，若为None，则永不过期
+#     #     'TIMEOUT': 60,
+#     #     'OPTIONS':{
+#     #         #MAX_ENTRIES代表最大缓存记录的数量
+#     #         'MAX_ENTRIES': 1000,
+#     #         #当缓存到达最大数量之后，设置剔除缓存的数量
+#     #         'CULL_FREQUENCY': 3,
+#     #     }
+#     # },
+#
+#     # redis库存储缓存
+#      "default": {
+#             "BACKEND": "django_redis.cache.RedisCache",
+#             "LOCATION": "redis://127.0.0.1:6379/1",
+#             "OPTIONS": {
+#                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#                 "PASSWORD": "django_redis"
+#             }
+#         },
+#     # 设置多个缓存数据表
+# #     'mysite':{
+# #         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+# #         'LOCATION':'mysite_text_city',
+# # }
+#     # 忘记密码返回邮箱
+#     "email_code": {
+#            "BACKEND": "django_redis.cache.RedisCache",
+#            "LOCATION": "redis://127.0.0.1:6379/2",
+#            "OPTIONS": {
+#                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#            }
+#        },
+# }
 
 LANGUAGE_CODE = 'zh-hans'
 

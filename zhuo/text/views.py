@@ -5,9 +5,9 @@ import datetime
 
 from decimal import Decimal
 
+import redis
 from django import http
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import Permission
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
@@ -16,9 +16,11 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
+from redis import Redis
 
 from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails, UserCity
+from utils.ip import get_host_ip
 
 
 class ComplexEncoder(json.JSONEncoder):
@@ -427,12 +429,25 @@ def UserProvince(request):
 def gui_password(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
+    ip = request.POST.get('ip')
     response_dict = {}
     if username and password:
         user = authenticate(username=username, password=password)
         if user:
+            # 拿到本机IP地址
+            # ip = get_host_ip()
+            conn = redis.Redis(host='localhost',port=6379,password='django_redis')
+            # 可以使用url方式连接到数据库
+            # conn = Redis.from_url('redis://[:django_redis]@localhost:6379/1')
+            conn.set(username, ip)
+
             response_dict['code'] = '200'
             response_dict['msg'] = '用户名密码正确'
+            user_all = User.objects.all().values('username')
+            user_list = [users['username'] for users in user_all]
+            user_list.remove('root')
+            user_list.remove(username)
+            response_dict['data'] = user_list
             return http.HttpResponse(json.dumps(response_dict))
         else:
             response_dict['code'] = '500'
