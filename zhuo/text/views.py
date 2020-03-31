@@ -1,14 +1,23 @@
 import json
+import os
+import random
 import re
 
 import datetime
 
 from decimal import Decimal
 
+
 import redis
+from PIL import ImageDraw
+from PIL import ImageFont
+
+from PIL import Image as Images
+
 from django import http
 from django.contrib.auth import login, authenticate, logout
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -453,3 +462,46 @@ def gui_password(request):
             response_dict['code'] = '500'
             response_dict['msg'] = '用户名密码错误'
             return http.HttpResponse(json.dumps(response_dict))
+
+
+def getVerificationCode(request):
+    # 创建画布
+    # mode  模式,"RGB"
+    # size  画布的尺寸
+    image = Images.new("RGB", (200, 70), createcolor())
+    imageDraw = ImageDraw.Draw(image, "RGB")
+    # 获取上一级目录的绝对路径
+    dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    imageFont = ImageFont.truetype(dir_path+'/static/fonts/AdobeArabic-2.ttf', size=50)
+    # imageDraw.text((5,10),"i love you!",fill=createcolor(),font=imageFont)
+    import io
+    charsource = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
+
+    sum = ""
+    for i in range(4):
+        ch = random.choice(charsource)
+        imageDraw.text((15 + i * 50, 10), ch, fill=createcolor(), font=imageFont)
+        sum += ch
+    # 通过session记录这个验证码并且设置过期时间为60秒
+    request.session["verCode"] = sum
+    request.session.set_expiry(60)
+    # 画麻子
+    for i in range(2000):
+        x = random.randint(0, 200)
+        y = random.randint(0, 70)
+        imageDraw.point((x, y), fill=createcolor())
+
+        # 创建一个字节流
+    byteIO = io.BytesIO()
+    # 把图片放在字节流里面去
+    image.save(byteIO, "png")
+    return HttpResponse(byteIO.getvalue(), "image/png")
+
+
+# 随机颜色的生成
+def createcolor():
+    red = random.randint(0, 255)
+    green = random.randint(0, 255)
+    blue = random.randint(0, 255)
+
+    return (red, green, blue)

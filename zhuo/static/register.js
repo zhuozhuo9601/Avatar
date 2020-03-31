@@ -92,3 +92,16 @@ function examination(id, status) {
         }
     }
 }
+
+// 重新刷新验证码
+$(function () {
+    bindGetValidCode()
+});
+function bindGetValidCode() {
+    // 点击刷新验证码
+    $("#code").click(function () {
+        console.log($(this).attr('src'));
+        $(this)[0].src += "?"
+
+    })
+}

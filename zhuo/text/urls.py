@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^user_add/$', views.UserAdd.as_view(),name='user_add'),
     url(r'^user_city/$', views.UserProvince,name='user_city'),
     url(r'^gui_password/$', views.gui_password,name='gui_password'),
+    url(r'^getVerificationCode/$', views.getVerificationCode,name='getVerificationCode'),
 ]
