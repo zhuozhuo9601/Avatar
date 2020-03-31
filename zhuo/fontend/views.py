@@ -1,4 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+from system.tasks import celery_value, send
+
 
 # Create your views here.
 
@@ -38,8 +41,26 @@ def vue_text(request):
 
 
 def map_aa(a, b, c):
+    r = celery_value.deplay(1, 2)
+    print('这是测试celery输出的结果:' + str(r))
     d = a + b + c
     return d
+
+
+def map_bb(request):
+    r = celery_value.delay(1, 2)
+    print('这是测试celery输出的结果:' + str(r))
+    return r
+
+def map_cc(request):
+    """
+    异步发送邮件
+    :param request:
+    :return:
+    """
+    for i in range(100):
+        sends = send.delay()
+    return HttpResponse('发送成功了')
 
 def filter_num(a):
     # for i in a:
