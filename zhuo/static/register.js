@@ -31,9 +31,11 @@ function registerData() {
 function loginData() {
     var username = $('#username').val();
     var password = $('#password').val();
+    var code_id = $("#code_id").val();
     var logindata = {
         "username": username,
-        "password": password
+        "password": password,
+        "code_id": code_id
     };
     $.post('/login/',
         logindata, function (data) {
@@ -100,8 +102,6 @@ $(function () {
 function bindGetValidCode() {
     // 点击刷新验证码
     $("#code").click(function () {
-        console.log($(this).attr('src'));
-        $(this)[0].src += "?"
-
+        $("#image_code")[0].src += "?"
     })
 }

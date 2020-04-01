@@ -94,6 +94,15 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
+        try:
+            verCode = request.session['verCode']
+            code_id = request.POST.get('code_id', None)
+            code_name = code_id.lower()
+            verCode_name = verCode.lower()
+            if code_name != verCode_name:
+                return HttpResponse('300')
+        except Exception as e:
+            return HttpResponse('500')
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username and password:
@@ -102,7 +111,7 @@ class LoginView(View):
                 login(request, user)
                 request.session.set_expiry(None)
                 response = redirect(reverse('texts:index'))
-                response.set_cookie('username', user.username, max_age=14 * 24 * 3600)
+                response.set_cookie('username', user.username, max_age=60*60*24)
                 return response
             else:
                 return http.HttpResponse('0')

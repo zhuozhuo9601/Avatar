@@ -20,7 +20,15 @@
         <span class="input-group-addon" id="sizing-addon2">密码：</span>
         <input type="password" class="form-control" placeholder="Password" style="width: 300px;" id="password">
     </div>
-    <img src="{{  url('texts:getVerificationCode') }}" id="code" alt="验证码">
+
+    <div>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon3">验证码：</span>
+            <input type="text" class="form-control" placeholder="" style="width: 100px;" id="code_id">
+            <a style="margin-top: 10px;color: #ff0009" id="code">看不清,点击我更换验证码</a>
+        </div>
+        <img src="{{  url('texts:getVerificationCode') }}" alt="验证码" id="image_code">
+    </div>
     {#    <button id="button_register" style="margin-left: 40%; margin-top: 20px;" onclick="registerData()">注册</button>#}
     <button id="button_login" type="button" class="btn btn-success btn-default"
             style="margin-left: 45%; margin-top: 20px;" onclick="loginData()">登陆
