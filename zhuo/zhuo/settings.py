@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'seriali',
     'rest_framework',
     'fontend',
+    'df_goods',
+    'haystack',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -178,6 +180,20 @@ NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
 #            }
 #        },
 # }
+
+# 添加搜索引擎
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 指定使用的搜索引擎
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        # 指定索引文件存放位置
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 新增的数据自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 18
 
 LANGUAGE_CODE = 'zh-hans'
 
