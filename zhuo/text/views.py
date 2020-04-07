@@ -7,7 +7,6 @@ import datetime
 
 from decimal import Decimal
 
-
 import redis
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -25,11 +24,9 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from redis import Redis
 
 from text.base import user_login
 from text.models import User, Image, ImageDetails, UserDetails, UserCity
-from utils.ip import get_host_ip
 
 
 class ComplexEncoder(json.JSONEncoder):
@@ -111,7 +108,7 @@ class LoginView(View):
                 login(request, user)
                 request.session.set_expiry(None)
                 response = redirect(reverse('texts:index'))
-                response.set_cookie('username', user.username, max_age=60*60*24)
+                response.set_cookie('username', user.username, max_age=60 * 60 * 24)
                 return response
             else:
                 return http.HttpResponse('0')
@@ -454,7 +451,7 @@ def gui_password(request):
         if user:
             # 拿到本机IP地址
             # ip = get_host_ip()
-            conn = redis.Redis(host='localhost',port=6379,password='django_redis')
+            conn = redis.Redis(host='localhost', port=6379, password='django_redis')
             # 可以使用url方式连接到数据库
             # conn = Redis.from_url('redis://[:django_redis]@localhost:6379/1')
             conn.set(username, ip)
@@ -481,7 +478,7 @@ def getVerificationCode(request):
     imageDraw = ImageDraw.Draw(image, "RGB")
     # 获取上一级目录的绝对路径
     dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    imageFont = ImageFont.truetype(dir_path+'/static/fonts/AdobeArabic-2.ttf', size=50)
+    imageFont = ImageFont.truetype(dir_path + '/static/fonts/AdobeArabic-2.ttf', size=50)
     # imageDraw.text((5,10),"i love you!",fill=createcolor(),font=imageFont)
     import io
     charsource = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
@@ -514,3 +511,4 @@ def createcolor():
     blue = random.randint(0, 255)
 
     return (red, green, blue)
+
