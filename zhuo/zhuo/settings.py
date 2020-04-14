@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'fontend',
     'df_goods',
     'haystack',
+    'reptile',
 )
 
 MIDDLEWARE_CLASSES = (
