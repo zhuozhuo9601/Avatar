@@ -5,6 +5,7 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -79,18 +80,17 @@ def echarts_excel(request):
     w.write(0, 4, u"来源")
     # 写入数据
 
-    # 检测文件是够存在
-    # 方框中代码是保存本地文件使用，如不需要请删除该代码
-    ###########################
+    # 检测文件是否存在
     exist_file = os.path.isfile("/home/python/Desktop/excel/test.xls")
     if exist_file:
         os.remove(r"/home/python/Desktop/excel/test.xls")
     ws.save("/home/python/Desktop/excel/test.xls")
-    ############################
     sio = BytesIO()
     ws.save(sio)
     sio.seek(0)
-    response = HttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=test.xls'
-    response.write(sio.getvalue())
-    return response
+    try:
+        response = StreamingHttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=test.xls'
+        return response
+    except Exception as e:
+        return HttpResponse('下载文件失败')
