@@ -42,3 +42,9 @@ function reptile_data() {
 
     });
 }
+
+
+function export_execl() {
+    var href = '/echarts_excel/';
+    $("#excel_id").attr('href', href);
+}

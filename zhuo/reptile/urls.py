@@ -7,4 +7,5 @@ urlpatterns = [
     # url(路径, 视图)
     url(r'^reptile/$', views.reptile_index,name='reptile_index'),
     url(r'^reptile_data/$', views.reptile_data,name='reptile_data'),
+    url(r'^echarts_excel/$', views.echarts_excel,name='echarts_excel'),
 ]
