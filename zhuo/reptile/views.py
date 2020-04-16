@@ -2,7 +2,9 @@ import json
 import os
 from io import BytesIO
 
+from io import StringIO
 from bs4 import BeautifulSoup
+from django.http import FileResponse
 
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
@@ -68,29 +70,44 @@ def reptile_data(request):
         return HttpResponse(json.dumps(res_dict))
 
 
+
 def echarts_excel(request):
+    data_result = json.loads(request.GET.get('data_result'))
     ws = Workbook(encoding='utf-8')
     # 创建sheet名称
     w = ws.add_sheet(u"数据报表第一页")
     # 创建一行数据
-    w.write(0, 0, "id")
-    w.write(0, 1, u"用户名")
-    w.write(0, 2, u"发布时间")
-    w.write(0, 3, u"内容")
-    w.write(0, 4, u"来源")
+    w.write(0, 0, "游戏名称")
+    w.write(0, 1, "票数")
+
     # 写入数据
+    for i in range(len(data_result['game_list'])):
+        w.write(i+1, 0, data_result['game_list'][i])
+        w.write(i+1, 1, data_result['votes_list'][i])
 
     # 检测文件是否存在
-    exist_file = os.path.isfile("/home/python/Desktop/excel/test.xls")
+    file_name = "/home/python/Desktop/excel/test.xls"
+    exist_file = os.path.isfile(file_name)
     if exist_file:
-        os.remove(r"/home/python/Desktop/excel/test.xls")
-    ws.save("/home/python/Desktop/excel/test.xls")
-    sio = BytesIO()
-    ws.save(sio)
-    sio.seek(0)
+        os.remove(file_name)
+    ws.save(file_name)
     try:
-        response = StreamingHttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=test.xls'
+        # response = StreamingHttpResponse(open(file_name), 'rb')
+        # response['content_type'] = "application/octet-stream"
+        # response['Content-Disposition'] = "attachment; filename*=utf-8''{}".format(file_name)
+        # return response
+        response = FileResponse(open(file_name, 'rb'))
+        response['content_type'] = "application/octet-stream"
+        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_name)
         return response
     except Exception as e:
         return HttpResponse('下载文件失败')
+
+def open_file(file, chunk_size=512):
+    with open(file, encoding = 'gb2312') as f:
+        while True:
+            c = f.read(chunk_size)
+            if c:
+                yield c
+            else:
+                break

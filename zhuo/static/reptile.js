@@ -5,10 +5,12 @@ layui.use(['layer'], function () {
     var layer = layui.layer;//滑块
 
 });
-
+var data_result = '';
 function reptile_data() {
     $.post('/reptile_data/', function (data) {
         var rep_data = JSON.parse(data);
+        data_result = {'game_list':rep_data.game_list,
+        'votes_list':rep_data.votes_list};
         if (rep_data.code != '500') {
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('main'));
@@ -45,6 +47,6 @@ function reptile_data() {
 
 
 function export_execl() {
-    var href = '/echarts_excel/';
+    var href = '/echarts_excel/?data_result=' + JSON.stringify(data_result);
     $("#excel_id").attr('href', href);
 }
