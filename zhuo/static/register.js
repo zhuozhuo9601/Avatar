@@ -39,13 +39,20 @@ function loginData() {
     };
     $.post('/login/',
         logindata, function (data) {
-            if (data != '0') {
-                layer.msg('登陆成功', {icon: 6});
-                window.location.href = '/';
+            var data_result = JSON.parse(data);
+            if (data_result.code != '0') {
+                layer.msg(data_result.msg, {icon: 6});
+                setTimeout(function () {
+                    window.location.href = '/';
+                }, 2000);
+                // window.location.href = '/';
             }
             else {
-                layer.msg('登陆失败', {icon: 5});
-                window.location.href = '/login';
+                layer.msg(data_result.msg, {icon: 5});
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 2000);
+                // window.location.href = '/login';
             }
 
         });

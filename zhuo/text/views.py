@@ -91,15 +91,18 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
+        rep_dict = {'code':'0'}
         try:
             verCode = request.session['verCode']
             code_id = request.POST.get('code_id', None)
             code_name = code_id.lower()
             verCode_name = verCode.lower()
             if code_name != verCode_name:
-                return HttpResponse('300')
+                rep_dict['msg'] = '验证码出错'
+                return HttpResponse(json.dumps(rep_dict))
         except Exception as e:
-            return HttpResponse('500')
+            rep_dict['msg'] = '系统出现问题'
+            return HttpResponse(json.dumps(rep_dict))
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username and password:
@@ -111,7 +114,8 @@ class LoginView(View):
                 response.set_cookie('username', user.username, max_age=60 * 60 * 24)
                 return response
             else:
-                return http.HttpResponse('0')
+                rep_dict['msg'] = '用户名密码错误'
+                return http.HttpResponse(json.dumps(rep_dict))
 
 
 class IndexView(View):
