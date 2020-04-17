@@ -8,16 +8,17 @@
     <script type="text/javascript" src="/static/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/reptile.js"></script>
     <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
 </head>
 <body>
     <div id="body_div">
         <h1>爬虫练习页面</h1>
-        <button type="button" class="layui-btn layui-btn-normal" onclick="reptile_data()">开始爬取数据</button>
+        <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" onclick="reptile_data()">开始爬取数据</button>
     </div>
     <div id="main" style="height:600px;">
 
     </div>
-    <a onclick="export_execl()" id="excel_id">导出报表数据</a>
+    <a onclick="export_execl()" id="excel_id" class="layui-btn layui-btn-radius layui-btn-warm" type="button">导出报表数据</a>
 </body>
 
 </html>
