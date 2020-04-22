@@ -39,21 +39,21 @@ function loginData() {
     };
     $.post('/login/',
         logindata, function (data) {
-            var data_result = JSON.parse(data);
-            if (data_result.code != '0') {
-                layer.msg(data_result.msg, {icon: 6});
+            if (data.indexOf("msg") != -1) {
+                var data_result = JSON.parse(data);
+                layer.msg(data_result.msg, {icon: 5});
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 2000);
+
+            } else {
+                layer.msg('登陆成功', {icon: 6});
                 setTimeout(function () {
                     window.location.href = '/';
                 }, 2000);
                 // window.location.href = '/';
             }
-            else {
-                layer.msg(data_result.msg, {icon: 5});
-                setTimeout(function () {
-                    window.location.href = '/login';
-                }, 2000);
-                // window.location.href = '/login';
-            }
+
 
         });
 }
