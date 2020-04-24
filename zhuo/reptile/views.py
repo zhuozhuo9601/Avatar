@@ -12,6 +12,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from pip._vendor import requests
+from redis import StrictRedis
 from xlwt import Workbook
 
 
@@ -61,6 +62,11 @@ def reptile_data(request):
                 game_list.append(c2_data)
                 votes_list.append(c4_data)
         if game_list and votes_list:
+            redis = StrictRedis(host='localhost', port=6379, db=0, password='django_redis')
+            for game_data, votes_data in zip(game_list, votes_list):
+                num = game_list.index(game_data)
+                redis.set('name'+str(num), game_data)
+                redis.set('votes'+str(num), votes_data)
             res_dict['game_list'] = game_list
             res_dict['votes_list'] = votes_list
         return HttpResponse(json.dumps(res_dict))

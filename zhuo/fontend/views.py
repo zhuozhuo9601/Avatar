@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from redis import StrictRedis
+
 from system.tasks import celery_value, send
 
 
@@ -68,3 +70,15 @@ def filter_num(a):
         return True
     else:
         return False
+
+
+def redis_result(request):
+    """
+    测试redis存储
+    :param request:
+    :return:
+    """
+    redis = StrictRedis(host='localhost', port=6379, db=0, password='django_redis')
+    redis.set('name', 'Bob')
+    print(redis.get('name'))
+    return HttpResponse('测试成功')
