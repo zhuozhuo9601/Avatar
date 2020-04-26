@@ -90,14 +90,20 @@ function examination(id, status) {
     if (status == 'name') {
         if (reg_name.test($("#" + id).val()) == false) {
             $("#username_error").removeAttr('hidden');
+        }else{
+            $("#username_error").css('display', 'none');
         }
     } else if (status == 'word') {
         if (reg_word.test($("#" + id).val()) == false) {
             $("#password_error").removeAttr('hidden');
+        }else{
+            $("#password_error").css('display', 'none');
         }
     } else {
         if (reg_phone.test($("#" + id).val()) == false) {
             $("#phone_error").removeAttr('hidden');
+        }else{
+            $("#phone_error").css('display', 'none');
         }
     }
 }
