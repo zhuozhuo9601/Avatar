@@ -186,9 +186,17 @@ NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
 HAYSTACK_CONNECTIONS = {
     'default': {
         # 指定使用的搜索引擎
-        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        # 'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        # 因为python的django框架在2.0版本以上已经不存在whoosh_cn_backend
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        # elasticsearch搜索
+        # 'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
         # 指定索引文件存放位置
-        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+        # 'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+        # 此处为elasticsearch运行的服务器ip地址，端口号默认为9200
+        'URL': 'http://192.168.222.156:9200/',
+        # 指定elasticsearch建立的索引库的名称
+        'INDEX_NAME': 'zhuo_web',
     }
 }
 

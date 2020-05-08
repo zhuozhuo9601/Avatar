@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^', include('reptile.urls',namespace='reptiles')),
     url(r'^books/', include('seriali.urls',namespace='seriali')),
     url(r'^goods/', include('df_goods.urls',namespace='df_goods')),
-    url(r'^search/', include('haystack.urls',namespace='haystack')),
+    # url(r'^search/', include('haystack.urls',namespace='haystack')),
 ]
