@@ -15,6 +15,9 @@ from PIL import Image as Images
 
 from django import http
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -303,6 +306,7 @@ class TableView(View):
     """
 
     def get(self, request):
+
         return render(request, 'table.html', locals())
 
     def post(self, request):
@@ -516,3 +520,42 @@ def createcolor():
 
     return (red, green, blue)
 
+
+@login_required
+def table_permission(request):
+    """
+    表格权限返回数据
+    :param request:
+    :return:
+    """
+    content = ContentType.objects.all().values('app_label').order_by('app_label')
+    result_list = []
+    request_dict = {'code':0}
+    try:
+        label_list = []
+        for label in content:
+            label_list.append(label['app_label'])
+        for con in list(set(label_list)):
+            con_dict = {}
+            con_dict['title'] = con
+            header_list = []
+            cont_app = ContentType.objects.filter(app_label=con).values()
+            for app in cont_app:
+                header_dict = {}
+                header_dict['title'] = app['model']
+                per_data = Permission.objects.filter(content_type__id=app['id']).values()
+                per_list = []
+                for per in per_data:
+                    per_dict = {}
+                    per_dict['title'] = 'id:' + str(per['id']) + ',' + 'name:' + per['name'] + 'codename:' + per['codename']
+                    per_dict['id'] = per['id']
+                    per_list.append(per_dict)
+                header_dict['children'] = per_list
+                header_list.append(header_dict)
+            con_dict['children'] = header_list
+            result_list.append(con_dict)
+        request_dict['data'] = result_list
+    except Exception as e:
+        request_dict['code'] = 2
+        request_dict['msg'] = '出现错误'
+    return HttpResponse(json.dumps(request_dict))

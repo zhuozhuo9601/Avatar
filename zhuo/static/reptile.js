@@ -50,3 +50,14 @@ function export_execl() {
     var href = '/echarts_excel/?data_result=' + JSON.stringify(data_result);
     $("#excel_id").attr('href', href);
 }
+
+$("#test_num input[name='x']").click(function () {
+   console.log('111');
+});
+function abccc() {
+    var checkbox = document.all('checkbox');
+    console.log(checkbox);
+}
+$("input[name='x']").click(function () {
+    console.log('1231');
+});

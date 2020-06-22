@@ -1,120 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <title>layui在线调试</title>
-  <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
-{#  <style>#}
-{#    body{margin: 10px;}#}
-{#    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}#}
-{#  </style>#}
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>layui在线调试</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="../static/jquery.js"></script>
+    <script src="../static/layui/table.js"></script>
+    {#  <style>#}
+    {#    body{margin: 10px;}#}
+    {#    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}#}
+    {#  </style>#}
 </head>
 <body>
 
 <ul class="layui-nav" lay-filter="">
-  <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
-  <li class="layui-nav-item"><a href="{{ url('texts:user') }}">个人中心</a></li>
-  <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
-  <li class="layui-nav-item">
-    <a href="javascript:;">解决方案</a>
-    <dl class="layui-nav-child"> <!-- 二级菜单 -->
-      <dd><a href="">移动模块</a></dd>
-      <dd><a href="">后台模版</a></dd>
-      <dd><a href="">电商平台</a></dd>
-    </dl>
-  </li>
-  <li class="layui-nav-item"><a href="">社区</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:index') }}">首页</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:user') }}">个人中心</a></li>
+    <li class="layui-nav-item"><a href="">社区</a></li>
+    <li class="layui-nav-item"><a href="{{ url('texts:outlogin') }}">退出登陆</a></li>
 </ul>
 <div>
-    <img src="../static/table.jpg" style="height: 300px;width: auto">
-</div>
-<table class="layui-hide" id="demo" lay-filter="test"></table>
 
+</div>
+<table class="layui-hide" id="demo" lay-filter="TestTable"></table>
+<div>
+    <div class="layui-collapse">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">权限查看</h2>
+            <div class="layui-colla-content">
+                <div id="test1" style=""></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<script src="../static/layui/layui.js"></script>
-<script src="../static/layui/table.js"></script>
-<script src="../static/jquery.js"></script>
-<script>
-//注意：导航 依赖 element 模块，否则无法进行功能性操作
-layui.use('element', function(){
-  var element = layui.element;
 
-  //…
-});
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function () {
+        var element = layui.element;
+
+        //…
+    });
 </script>
 </body>
 <form class="layui-form" id="form_id" hidden="true"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-  <div class="layui-form-item">
-    <label class="layui-form-label">昵称</label>
-    <div class="layui-input-block">
-      <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">职业</label>
-    <div class="layui-input-block">
-      <select name="classify" lay-filter="aihao">
-        <option value="互联网">互联网</option>
-        <option value="金融">金融</option>
-      </select>
-    </div>
-  </div>
     <div class="layui-form-item">
-    <label class="layui-form-label">城市</label>
-    <div class="layui-input-block">
-      <select name="city" lay-filter="aihao">
-        <option value="北京">北京</option>
-        <option value="河北">河北</option>
-          <option value="山西">山西</option>
-          <option value="深圳">深圳</option>
-      </select>
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
     </div>
-  </div>
-{#点击弹出框#}
-  <div class="layui-form-item">
-    <label class="layui-form-label">性别</label>
-    <div class="layui-input-block">
-      <input type="radio" name="sex" value="男" title="男">
-      <input type="radio" name="sex" value="女" title="女" checked>
-    </div>
-  </div>
     <div class="layui-form-item">
-    <label class="layui-form-label">积分</label>
-    <div class="layui-input-block">
-      <input type="text" name="experience" placeholder="请输入" autocomplete="off" class="layui-input">
+        <label class="layui-form-label">职业</label>
+        <div class="layui-input-block">
+            <select name="classify" lay-filter="aihao">
+                <option value="互联网">互联网</option>
+                <option value="金融">金融</option>
+            </select>
+        </div>
     </div>
-  </div>
     <div class="layui-form-item">
-    <label class="layui-form-label">评分</label>
-    <div class="layui-input-block">
-      <input type="text" name="score" placeholder="请输入" autocomplete="off" class="layui-input">
+        <label class="layui-form-label">城市</label>
+        <div class="layui-input-block">
+            <select name="city" lay-filter="aihao">
+                <option value="北京">北京</option>
+                <option value="河北">河北</option>
+                <option value="山西">山西</option>
+                <option value="深圳">深圳</option>
+            </select>
+        </div>
     </div>
-  </div>
+    {#点击弹出框#}
     <div class="layui-form-item">
-    <label class="layui-form-label">财富</label>
-    <div class="layui-input-block">
-      <input type="text" name="wealth" placeholder="请输入" autocomplete="off" class="layui-input">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男">
+            <input type="radio" name="sex" value="女" title="女" checked>
+        </div>
     </div>
-  </div>
-  <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">签名</label>
-    <div class="layui-input-block">
-      <textarea placeholder="请输入内容" class="layui-textarea" name="sign"></textarea>
+    <div class="layui-form-item">
+        <label class="layui-form-label">积分</label>
+        <div class="layui-input-block">
+            <input type="text" name="experience" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
     </div>
-  </div>
-  <div class="layui-form-item">
-    <div class="layui-input-block">
-      <a class="layui-btn" id="formDemo">立即提交</a>
-      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    <div class="layui-form-item">
+        <label class="layui-form-label">评分</label>
+        <div class="layui-input-block">
+            <input type="text" name="score" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
     </div>
-  </div>
-  <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">财富</label>
+        <div class="layui-input-block">
+            <input type="text" name="wealth" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">签名</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="sign"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a class="layui-btn" id="formDemo">立即提交</a>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
 </form>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {##}
+    {#  {{#  if(d.auth > 2){ }}#}
+    {##}
+    {#  {{#  } }}#}
+</script>
+<script>
+
+
+</script>
 
 </html>

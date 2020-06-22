@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^user_city/$', views.UserProvince,name='user_city'),
     url(r'^gui_password/$', views.gui_password,name='gui_password'),
     url(r'^getVerificationCode/$', views.getVerificationCode,name='getVerificationCode'),
+    url(r'^table_permission/$', views.table_permission,name='table_permission'),
 ]

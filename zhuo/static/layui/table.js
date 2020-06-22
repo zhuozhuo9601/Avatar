@@ -2,6 +2,28 @@ layui.config({
     version: '1572350921010' //为了更新 js 缓存，可忽略
 });
 
+$(function () {
+    layui.use(['tree', 'layer'], function () {
+        var tree = layui.tree,
+            layer = layui.layer;
+        $.post('/table_permission/'
+            , function (res) {
+            console.log(JSON.stringify(res.data));
+                if (res.code == 0) {
+                    var inst1 = tree.render({
+                        elem: '#test1'  //绑定元素
+                        , data: res.data
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                }
+
+            }, 'json');
+
+    });
+});
+
+
 layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider', 'jquery'], function () {
     var laydate = layui.laydate //日期
         , laypage = layui.laypage //分页
@@ -58,21 +80,21 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , cols: [[ //表头
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left', totalRowText: '合计：'}
-            , {field: 'username', title: '用户名', width: 80}
-            , {field: 'birthday', title: '生日', width: 90, sort: true, totalRow: true}
+            , {field: 'username', title: '用户名', width: 180}
+            , {field: 'birthday', title: '生日', width: 190, sort: true, totalRow: true}
             , {field: 'sex', title: '性别', width: 80, sort: true}
             , {field: 'province', title: '省份', width: 80, sort: true, totalRow: true}
             , {field: 'city', title: '城市', width: 150}
             , {field: 'area', title: '区', width: 200}
             , {field: 'hobby', title: '爱好', width: 100}
             , {field: 'career', title: '职业', width: 100}
-            , {field: 'sign', title: '签名', width: 135, sort: true, totalRow: true}
+            , {field: 'sign', title: '签名', width: 205, sort: true, totalRow: true}
             , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
         ]]
     });
 
     //监听头工具栏事件
-    table.on('toolbar(test)', function (obj) {
+    table.on('toolbar(TestTable)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id)
             , data = checkStatus.data; //获取选中的数据
         switch (obj.event) {
@@ -155,7 +177,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                         '</div>' +
                         '</div>' +
 
-                        '<button class="layui-btn layui-btn-warm layui-btn-radius"　id="button_update" onclick=update(' + id + ') style="margin-left: 40%;">修改</button>' +
+                        '<button class="layui-btn layui-btn-warm layui-btn-radius" id="button_update" onclick=update(' + id + ') style="margin-left: 40%;">修改</button>' +
                         '</div>'
                     })
                 }
@@ -182,90 +204,59 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         }
     });
 
-    //监听行工具事件
-    table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var data = obj.data //获得当前行数据
-            , layEvent = obj.event; //获得 lay-event 对应的值
-        if (layEvent === 'detail') {
-            layer.msg('查看操作');
-        } else if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构
+    //监听工具条
+    table.on('tool(TestTable)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+        if (layEvent === 'detail') { //查看
+            detail(obj);
+        } else if (layEvent === 'del') { //删除
+            del(obj);
+        } else if (layEvent === 'edit') { //编辑
+            edit(obj);
+        }
+    });
+
+    function detail(obj) {
+        var html = '';
+        html += '<div>';
+        for (var key in obj.data) {
+            html += '<div class="layui-form-item">';
+            html += '<label class="layui-form-label">' + key + ':</label>';
+            html += '<div class="layui-input-block">';
+            html += '<span style="text-align: center;line-height: 40px;">' + obj.data[key] + '</span>';
+            html += '</div>';
+            html += '</div>';
+        }
+        html += '</div>';
+        layer.open({
+            type: 1,
+            tips: 1,
+            title: '添加品牌系统分辨率',
+            id: 'system',
+            btn: ['确认', '取消'],
+            area: ['520px', '440px'], //宽高
+            content: html,
+            success: function (layero, index) {
+
+            },
+            yes: function (index, layero) {
                 layer.close(index);
-                //向服务端发送删除指令
-            });
-        } else if (layEvent === 'edit') {
-            layer.msg('编辑操作');
-        }
-    });
-
-    //执行一个轮播实例
-    carousel.render({
-        elem: '#test1'
-        , width: '100%' //设置容器宽度
-        , height: 200
-        , arrow: 'none' //不显示箭头
-        , anim: 'fade' //切换动画方式
-    });
-
-    //将日期直接嵌套在指定容器中
-    var dateIns = laydate.render({
-        elem: '#laydateDemo'
-        , position: 'static'
-        , calendar: true //是否开启公历重要节日
-        , mark: { //标记重要日子
-            '0-10-14': '生日'
-            , '2018-08-28': '新版'
-            , '2018-10-08': '神秘'
-        }
-        , done: function (value, date, endDate) {
-            if (date.year == 2017 && date.month == 11 && date.date == 30) {
-                dateIns.hint('一不小心就月底了呢');
             }
-        }
-        , change: function (value, date, endDate) {
-            layer.msg(value)
-        }
-    });
+        })
+    }
 
-    //分页
-    laypage.render({
-        elem: 'pageDemo' //分页容器的id
-        , count: 100 //总页数
-        , skin: '#1E9FFF' //自定义选中色值
-        //,skip: true //开启跳页
-        , jump: function (obj, first) {
-            if (!first) {
-                layer.msg('第' + obj.curr + '页', {offset: 'b'});
-            }
-        }
-    });
+    function del(obj) {
+        layer.msg('进行删除操作', {icon: 2});
+    }
 
-    //上传
-    upload.render({
-        elem: '#uploadDemo'
-        , url: '' //上传接口
-        , done: function (res) {
-            console.log(res)
-        }
-    });
-
-    //滑块
-    var sliderInst = slider.render({
-        elem: '#sliderDemo'
-        , input: true //输入框
-    });
-
-    //底部信息
-    // var footerTpl = lay('#footer')[0].innerHTML;
-    // lay('#footer').html(layui.laytpl(footerTpl).render({}))
-    //     .removeClass('layui-hide');
-
+    function edit(obj) {
+        layer.msg('进行编辑操作', {icon: 1});
+    }
 
 });
-/**
- * Created by python on 19-11-4.
- */
 
 function update(id) {
     var username = $('#username').val();
@@ -282,8 +273,6 @@ function update(id) {
         "sex": sex, "score": score, "city": city, "sign": sign, "classify": classify, "wealth": wealth
     };
     var update_dict = JSON.stringify(update_data);
-    console.log(update_dict);
-    console.log(typeof(update_dict));
     $.ajax({
         url: "/table_update/",
         type: "post",

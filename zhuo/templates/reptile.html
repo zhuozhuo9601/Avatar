@@ -11,15 +11,52 @@
     <link rel="stylesheet" href="/static/layui/css/layui.css">
 </head>
 <body>
-    <div id="body_div">
-        <h1>爬虫练习页面</h1>
-        <a href="{{ url('texts:index') }}">返回首页</a>
-        <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" onclick="reptile_data()">开始爬取数据</button>
-    </div>
-    <div id="main" style="height:600px;">
+<div id="body_div">
+    <h1>爬虫练习页面</h1>
+    <a href="{{ url('texts:index') }}">返回首页</a>
+    <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" onclick="reptile_data()">开始爬取数据</button>
+</div>
+<div id="main" style="height:600px;">
 
+</div>
+<a onclick="export_execl()" id="excel_id" class="layui-btn layui-btn-radius layui-btn-warm" type="button">导出报表数据</a>
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">网站设置</li>
+        <li>用户管理</li>
+        <li>权限分配</li>
+        <li>商品管理</li>
+        <li>订单管理</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-input-block" id="test_num">
+                    <input type="checkbox" name="x" title="写作" onchange="abccc()">
+                    <input type="checkbox" name="r" title="阅读" checked>
+                    <input type="checkbox" name="d" title="发呆">
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">2</div>
+        <div class="layui-tab-item">3</div>
+        <div class="layui-tab-item">4</div>
+        <div class="layui-tab-item">5</div>
+        <div class="layui-tab-item">6</div>
     </div>
-    <a onclick="export_execl()" id="excel_id" class="layui-btn layui-btn-radius layui-btn-warm" type="button">导出报表数据</a>
+    <div id="test"></div>
+</div>
 </body>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'form'], function () {
+        var element = layui.element;
+        var form = layui.form;
 
+        //…
+    });
+</script>
 </html>
