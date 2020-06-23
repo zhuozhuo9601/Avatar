@@ -8,10 +8,9 @@ $(function () {
             layer = layui.layer;
         $.post('/table_permission/'
             , function (res) {
-            console.log(JSON.stringify(res.data));
                 if (res.code == 0) {
                     var inst1 = tree.render({
-                        elem: '#test1'  //绑定元素
+                        elem: '#tree_data'  //绑定元素
                         , data: res.data
                     });
                 } else {
@@ -234,7 +233,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         layer.open({
             type: 1,
             tips: 1,
-            title: '添加品牌系统分辨率',
+            title: '查看',
             id: 'system',
             btn: ['确认', '取消'],
             area: ['520px', '440px'], //宽高
@@ -286,4 +285,106 @@ function update(id) {
 
         }
     });
+}
+
+function add_permission() {
+    layui.use(['layer', 'table', 'element', 'form'], function () {
+        var layer = layui.layer //弹层
+            , form = layui.form;//滑块
+        $.post('/check_permission/'
+            , function (res) {
+                var html = '';
+                if (res.code == 0) {
+                    html += '<form class="layui-form" action="" id="select_form">';
+                    html += '<div class="layui-inline">';
+                    html += '<label class="layui-form-label">权限app:</label>';
+                    html += '<div class="layui-input-inline">';
+                    html += '<select name="modules" lay-filter="select_id" lay-verify="required" lay-search="" id="select_id">';
+                    for (i = 0; i < res.data.length; i++) {
+                        html += '<option value=' + res.data[i] + '>' + res.data[i] + '</option>';
+                    }
+                    html += '</select>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="layui-inline" id="type_id">';
+                    html += '</div>';
+                    html += '<div class="layui-inline" id="input_id">';
+                    html += '</div>';
+                    html += '</form>';
+
+                } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                }
+
+                layer.open({
+                    type: 1,
+                    title: '添加权限',
+                    id: 'system',
+                    btn: ['确认', '取消'],
+                    area: ['520px', '440px'], //宽高
+                    content: html,
+                    success: function (layero, index) {
+                        form.render('select');
+                    },
+                    yes: function (index, layero) {
+                        var select_id = $("#select_id").val();
+                        var select_type = $("#select_type").val();
+                        var name = $("input[name='name']").val();
+                        var codename = $("input[name='codename']").val();
+                        $.post('/add_permission/'
+                            , {
+                                'select_id': select_id,
+                                'select_type': select_type,
+                                'name': name,
+                                'codename': codename
+                            }, function (res) {
+                                if (res.code == 0) {
+                                    layer.msg(res.msg, {time: 1000, icon: 1});
+                                } else {
+                                    layer.msg(res.msg, {time: 1000, icon: 2});
+                                }
+                            }, 'json');
+                        layer.close(index);
+
+                    }
+                })
+
+            }, 'json');
+
+
+        form.on('select(select_id)', function (data) {
+            $.post('/check_permission/'
+                , {'select': data.value}, function (res) {
+                    var html = '';
+                    if (res.code == 0) {
+                        $("#type_id").html('');
+                        html += '<label class="layui-form-label">权限app:</label>';
+                        html += '<div class="layui-input-inline">';
+                        html += '<select name="select_type" lay-filter="select_type" lay-verify="required" lay-search="" id="select_type">';
+                        for (i = 0; i < res.data.length; i++) {
+                            html += '<option value=' + res.data[i].id + '>' + res.data[i].model + '</option>';
+                        }
+                        html += '</select>';
+                        html += '</div>';
+
+                        $("#type_id").append(html);
+                        form.render('select');
+                    }
+                }, 'json')
+        });
+
+        form.on('select(select_type)', function (data) {
+            var html = '';
+            html += '<label class="layui-form-label">name:</label>';
+            html += '<div class="layui-input-block">';
+            html += '<input type="text" name="name" required  lay-verify="required" placeholder="请输入name" autocomplete="off" class="layui-input">';
+            html += '</div>';
+            html += '<label class="layui-form-label">codename:</label>';
+            html += '<div class="layui-input-block">';
+            html += '<input type="text" name="codename" required  lay-verify="required" placeholder="请输入codename" autocomplete="off" class="layui-input">';
+            html += '</div>';
+            $("#input_id").append(html);
+            form.render();
+        });
+    })
 }

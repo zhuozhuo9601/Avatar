@@ -28,16 +28,15 @@
 </div>
 <table class="layui-hide" id="demo" lay-filter="TestTable"></table>
 <div>
+    <button style="" class="layui-btn layui-btn-normal" onclick="add_permission()">增加权限</button>
     <div class="layui-collapse">
         <div class="layui-colla-item">
             <h2 class="layui-colla-title">权限查看</h2>
             <div class="layui-colla-content">
-                <div id="test1" style=""></div>
+                <div id="tree_data"></div>
             </div>
         </div>
     </div>
-
-
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -131,10 +130,6 @@
     {#  {{#  if(d.auth > 2){ }}#}
     {##}
     {#  {{#  } }}#}
-</script>
-<script>
-
-
 </script>
 
 </html>

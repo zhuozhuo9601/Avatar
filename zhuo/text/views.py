@@ -7,6 +7,7 @@ import datetime
 
 from decimal import Decimal
 
+import copy
 import redis
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -19,6 +20,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
+from django.forms import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -528,7 +530,7 @@ def table_permission(request):
     :param request:
     :return:
     """
-    content = ContentType.objects.all().values('app_label').order_by('app_label')
+    content = ContentType.objects.all().values('app_label').order_by('id')
     result_list = []
     request_dict = {'code':0}
     try:
@@ -558,4 +560,56 @@ def table_permission(request):
     except Exception as e:
         request_dict['code'] = 2
         request_dict['msg'] = '出现错误'
+    return HttpResponse(json.dumps(request_dict))
+
+@login_required
+def check_permission(request):
+    """
+    返回权限下拉框数据
+    :param request:
+    :return:
+    """
+    select = request.POST.get('select', '')
+    request_dict = {'code': 0}
+    try:
+        if select:
+            type = ContentType.objects.filter(app_label=select).values('id', 'model').order_by('id')
+            select_list = []
+            for data in type:
+                select_dict = copy.copy(data)
+                select_list.append(select_dict)
+            request_dict['data'] = select_list
+        else:
+            content = ContentType.objects.all().values('app_label').order_by('id')
+            label_list = []
+            for label in content:
+                label_list.append(label['app_label'])
+            request_dict['data'] = list(set(label_list))
+    except Exception as e:
+        request_dict['code'] = 2
+        request_dict['msg'] = '下拉框数据出现错误'
+    return HttpResponse(json.dumps(request_dict))
+
+
+@login_required
+def add_permission(request):
+    """
+    增加权限
+    :param request:
+    :return:
+    """
+    post_dict = request.POST.dict()
+    request_dict = {'code': 0}
+    try:
+        if post_dict:
+           content = ContentType.objects.get(id=post_dict['select_type'])
+           if 'name' and 'codename' in post_dict:
+               Permission.objects.create(name=post_dict['name'], codename=post_dict['codename'], content_type=content)
+               request_dict['msg'] = '添加成功'
+        else:
+            request_dict['code'] = 2
+            request_dict['msg'] = '请讲数据填写完整'
+    except Exception as e:
+        request_dict['msg'] = '添加失败'
+        request_dict['code'] = 2
     return HttpResponse(json.dumps(request_dict))

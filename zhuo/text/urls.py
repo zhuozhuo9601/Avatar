@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^gui_password/$', views.gui_password,name='gui_password'),
     url(r'^getVerificationCode/$', views.getVerificationCode,name='getVerificationCode'),
     url(r'^table_permission/$', views.table_permission,name='table_permission'),
+    url(r'^check_permission/$', views.check_permission,name='check_permission'),
+    url(r'^add_permission/$', views.add_permission,name='add_permission'),
 ]
